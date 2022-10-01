@@ -3,10 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 // const methodOverride = require('method-override');
 const userRoutes = require('./routes/user-routes');
+const adminRoutes = require('./routes/admin-routes');
 const session = require('express-session');
 const path = require('path')
 // const flash = require('connect-flash');
 // const session = require('express-session');
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/layout');
 app.use('/users', userRoutes);
+app.use('/admin', adminRoutes);
 app.get('/', (req, res) => {
     res.render('layouts/layout')
 })

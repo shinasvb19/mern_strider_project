@@ -19,7 +19,7 @@ const signup = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-    res.redirect('/users/signup');
+    res.redirect('/users/signin');
 }
 
 const signinPage = (req, res) => {
