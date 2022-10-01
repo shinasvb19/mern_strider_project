@@ -3,13 +3,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 // const methodOverride = require('method-override');
 const userRoutes = require('./routes/user-routes');
-const User = require('./models/userSchema');
+const session = require('express-session');
+const path = require('path')
+// const flash = require('connect-flash');
 // const session = require('express-session');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static('files'));
+
+// app.use(flash());
 
 app.use((req, res, next) => {
     res.setHeader("Access-Contol-Allow-Orgin", "*");
@@ -20,14 +27,14 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
     next();
 })
-app.set('view engine', 'ejs');
 
+app.set('view engine', 'ejs');
+app.set('layout', './layouts/layout');
+app.use('/users', userRoutes);
 app.get('/', (req, res) => {
-    res.render('signin')
+    res.render('layouts/layout')
 })
-app.post('/sample', (req, res) => {
-    res.send(req.body)
-})
+
 
 app.get('*', (req, res, next) => {
     res.send("404, Not found").status(404);
