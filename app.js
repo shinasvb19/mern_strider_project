@@ -7,9 +7,33 @@ const adminRoutes = require('./routes/admin-routes');
 const session = require('express-session');
 const path = require('path')
 // const flash = require('connect-flash');
-// const session = require('express-session');
 
+const MongoDBStore = require('connect-mongodb-session')(session);
 const app = express();
+app.use(function (req, res, next) {
+    res.set(
+        "Cache-Control",
+        "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+    );
+    next();
+});
+
+const store = new MongoDBStore({
+    uri: "mongodb://localhost:27017/strider",
+    collection: 'sessionValues'
+});
+store.on('error', function (error) {
+    console.log(error);
+});
+app.use(session({
+    secret: 'This is a secret',
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+    },
+    store: store,
+    resave: false,
+    saveUninitialized: false
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -17,6 +41,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static('files'));
+
 
 // app.use(flash());
 
