@@ -12,7 +12,7 @@ const signin = async (req, res) => {
     const admin = await Admin.findOne({ username });
     const validPassword = await bcrypt.compare(password, admin.password);
     if (validPassword) {
-        res.render('layouts/layout')
+        res.redirect('/admin/dashboard');
     }
     else {
         res.send('invalid username or passsword');
@@ -20,5 +20,10 @@ const signin = async (req, res) => {
 
 }
 
+const adminDashbord = (req, res) => {
+    res.render('admin/admin')
+}
+
 exports.signin = signin;
 exports.signinPage = signinPage;
+exports.adminDashbord = adminDashbord;
