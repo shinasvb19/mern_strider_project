@@ -1,5 +1,6 @@
 
 const bcrypt = require('bcrypt');
+const Admin = require('../models/adminSchema');
 
 
 const signinPage = (req, res) => {
@@ -8,8 +9,8 @@ const signinPage = (req, res) => {
 
 const signin = async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    const validPassword = await bcrypt.compare(password, user.password);
+    const admin = await Admin.findOne({ username });
+    const validPassword = await bcrypt.compare(password, admin.password);
     if (validPassword) {
         res.render('layouts/layout')
     }
