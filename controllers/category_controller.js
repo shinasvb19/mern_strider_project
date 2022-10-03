@@ -1,7 +1,8 @@
 const Category = require("../models/categorySchema");
 
-const categorys = (req, res) => {
-    res.render('admin/categorys');
+const categorys = async (req, res) => {
+    const categorys = await Category.find({});
+    res.render('admin/categorys', { message: req.flash('exists'), categorys });
 }
 
 const categoryPost = async (req, res) => {
@@ -14,11 +15,26 @@ const categoryPost = async (req, res) => {
         await newCategory.save()
 
     } catch (error) {
-        console.log(error)
+        req.flash('exists', 'category already exists');
     }
     res.redirect('/categorys');
 
 }
 
+const categoryDelete = async (req, res) => {
+    const categoryId = req.params.uid;
+
+
+    try {
+        await Category.findByIdAndDelete(categoryId)
+    } catch (error) {
+
+    }
+
+    res.redirect('/categorys');
+}
+
+
+exports.categoryDelete = categoryDelete;
 exports.categorys = categorys;
 exports.categoryPost = categoryPost;

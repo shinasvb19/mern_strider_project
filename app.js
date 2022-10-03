@@ -8,6 +8,7 @@ const categoryRoutes = require('./routes/category-routes');
 const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 // const flash = require('connect-flash');
 
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -19,6 +20,8 @@ app.use(function (req, res, next) {
     );
     next();
 });
+
+
 
 const store = new MongoDBStore({
     uri: "mongodb://localhost:27017/strider",
@@ -37,7 +40,7 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(flash());
-
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
