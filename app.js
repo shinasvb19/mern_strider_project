@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 // const methodOverride = require('method-override');
 const userRoutes = require('./routes/user-routes');
 const adminRoutes = require('./routes/admin-routes');
+const categoryRoutes = require('./routes/category-routes');
 const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
@@ -61,7 +62,7 @@ app.set('view engine', 'ejs');
 app.set('layout', './layouts/layout');
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
-app.use('/categorys,categoryRoutes');
+app.use('/categorys', categoryRoutes);
 app.get('/', (req, res) => {
     res.render('layouts/layout')
 })
