@@ -5,21 +5,28 @@ const Admin = require('../models/adminSchema');
 
 const signinPage = (req, res) => {
 
-    res.render('admin/adminLogin')
+    res.render('admin/adminLogin', { message: req.flash('invalid') })
     // console.log(req.session.username);
 }
 
 const signin = async (req, res) => {
     const { username, password } = req.body;
     const admin = await Admin.findOne({ username });
-    const validPassword = await bcrypt.compare(password, admin.password);
-    if (validPassword) {
-        req.session.username = admin.username;
+    if (admin) {
+        const validPassword = await bcrypt.compare(password, admin.password);
+        if (validPassword) {
+            req.session.username = admin.username;
+            res.redirect('/admin/dashboard');
+        }
+        else {
+            req.flash('invalid', 'invalid username or password');
+            res.redirect('/admin/signin');
 
-        res.redirect('/admin/dashboard');
+        }
     }
     else {
-        res.send('invalid username or passsword');
+        req.flash('invalid', 'invalid username or password');
+        res.redirect('/admin/signin');
     }
 
 }
