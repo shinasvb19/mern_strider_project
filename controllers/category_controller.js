@@ -33,7 +33,16 @@ const categoryDelete = async (req, res) => {
 
     res.redirect('/categorys');
 }
+const sessionCheckDashboard = (req, res, next) => {
+    if (req.session.username) {
+        next();
+    }
+    else {
+        res.redirect('/admin/signin')
+    }
 
+}
+exports.sessionCheckDashboard = sessionCheckDashboard;
 
 exports.categoryDelete = categoryDelete;
 exports.categorys = categorys;
