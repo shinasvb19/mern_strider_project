@@ -21,6 +21,12 @@ const adminSchema = new Schema({
         required: true,
         trim: true
     },
+    mobile: {
+        type: Number,
+        required: true,
+        unique: true,
+        trim: true
+    },
     email: {
         type: String,
         required: true,

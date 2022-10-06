@@ -1,15 +1,18 @@
 const User = require("../models/userSchema");
+const Admin = require("../models/adminSchema");
 const bcrypt = require('bcrypt');
 const signupPage = (req, res) => {
-    res.render('signup')
+    res.render('usersignup')
 }
 const signup = async (req, res) => {
-    const { username, firstName, lastName, email, password } = req.body;
+    const { username, firstName, lastName, mobile, email, password } = req.body;
+
     const hash = await bcrypt.hash(password, 12);
     const user = new User({
         username,
         firstName,
         lastName,
+        mobile,
         email,
         password: hash
     })

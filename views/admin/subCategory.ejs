@@ -199,55 +199,68 @@
                                     <div class="col-md-8 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Category</h4>
-                                                <form action="/categorys" method="post">
+                                                <h4 class="card-title">Sub-Category</h4>
+                                                <form action="/subcategorys" method="post">
+                                                    <label for="category">Choose a category</label>
+
+                                                    <select class="form-control mt-2" placeholder="sub-category"
+                                                        name="category_id" id="subcategory">
+                                                        <% for(values of categorys ){ %>
+                                                            <option value=" <%= values._id%>">
+                                                                <%= values.category%>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
                                                     <!-- <div class="form-group"> -->
-                                                    <label>Add your category</label>
-                                                    <input type="text" class="form-control" placeholder="category"
-                                                        name="category" aria-label="category" required>
+                                                    <label class="mt-2">Add your sub-category</label>
+                                                    <input type="text" class="form-control mt-2"
+                                                        placeholder="sub-category" name="subcategory"
+                                                        aria-label="sub-category" required>
                                                     <!-- </div> -->
                                                     <div class="text-danger">
                                                         <%= message %>
+
                                                     </div>
                                                     <input type="submit"
                                                         class="btn-blue btn-primary btn-md rounded mt-3 " type="submit">
                                                     </input>
 
                                                 </form>
-
-
                                                 <div class="col-lg-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4 class="card-title">Category Table</h4>
+                                                            <h4 class="card-title">Sub-category Table</h4>
                                                             <p class="card-description">
-                                                                Add Category <code>.table</code>
+                                                                Add Sub-Category <code>.table</code>
                                                             </p>
                                                             <div class="table-responsive">
                                                                 <table class="table">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Nos.</th>
+                                                                            <th>SUB-CATEGORY</th>
                                                                             <th>CATEGORY</th>
                                                                             <th>DELETE</th>
 
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-
-
-                                                                        <% let number=1; for(value of categorys ){ %>
+                                                                        <% let number=1; for(value of subcategorys){ %>
                                                                             <tr>
                                                                                 <td>
                                                                                     <%= number %>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <%= value.category %>
+                                                                                    <%= value.subcategory %>
                                                                                 </td>
+                                                                                <td>
+                                                                                    <%= value.category[0].category %>
 
+                                                                                </td>
                                                                                 <td>
                                                                                     <form method="post"
-                                                                                        action="/categorys/<%= value.id %>?_method=delete">
+                                                                                        action="/subcategorys/<%= value._id%>?_method=delete">
+
                                                                                         <button class="btn btn-danger"
                                                                                             id="delete">delete</button>
                                                                                     </form>

@@ -1,10 +1,13 @@
 const express = require('express');
 
-const mongoose = require('mongoose');
+
 // const methodOverride = require('method-override');
 const userRoutes = require('./routes/user-routes');
 const adminRoutes = require('./routes/admin-routes');
 const categoryRoutes = require('./routes/category-routes');
+const subcategoryRoutes = require('./routes/subcategory-routes');
+const productRoutes = require('./routes/productRoutes');
+const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
@@ -13,6 +16,7 @@ const methodOverride = require('method-override');
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 const app = express();
+dbconfiq();
 app.use(function (req, res, next) {
     res.set(
         "Cache-Control",
@@ -66,6 +70,10 @@ app.set('layout', './layouts/layout');
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 app.use('/categorys', categoryRoutes);
+app.use('/subcategorys', subcategoryRoutes);
+app.use('/products', productRoutes);
+
+
 app.get('/', (req, res) => {
     res.render('layouts/layout')
 })
@@ -75,14 +83,6 @@ app.get('*', (req, res, next) => {
     res.send("404, Not found").status(404);
 })
 
-mongoose.connect('mongodb://localhost:27017/strider', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-
-        app.listen(5000, () => {
-            console.log('listening to port 5000 .💕❤️💕')
-        })
-    })
-    .catch(err => {
-        console.log("OH NO MONGO CONNECTION ERROR!!!!")
-        console.log(err)
-    })
+app.listen(5000, () => {
+    console.log('listening to port 5000 .💕❤️💕')
+})
