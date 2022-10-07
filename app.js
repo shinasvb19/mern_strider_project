@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 
 
@@ -7,11 +11,13 @@ const adminRoutes = require('./routes/admin-routes');
 const categoryRoutes = require('./routes/category-routes');
 const subcategoryRoutes = require('./routes/subcategory-routes');
 const productRoutes = require('./routes/productRoutes');
+const brandRoutes = require('./routes/brandRoutes');
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const multer = require('multer');
 // const flash = require('connect-flash');
 
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -72,6 +78,7 @@ app.use('/admin', adminRoutes);
 app.use('/categorys', categoryRoutes);
 app.use('/subcategorys', subcategoryRoutes);
 app.use('/products', productRoutes);
+app.use('/brand', brandRoutes)
 
 
 app.get('/', (req, res) => {
