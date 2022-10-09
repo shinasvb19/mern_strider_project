@@ -7,8 +7,11 @@ cloudinary.config({
 });
 const storage = new CloudinaryStorage({
     cloudinary,
-    folder: 'strider',
-    allowedFormats: ['jpeg', 'png', 'jpg']
+    params: {
+
+        folder: 'strider',
+        allowedFormats: ['jpeg', 'png', 'jpg']
+    }
 })
 module.exports = {
     cloudinary, storage

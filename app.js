@@ -17,7 +17,8 @@ const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
-const multer = require('multer');
+// const multer = require('multer')
+// const upload = multer({ dest: 'uploads/' })
 // const flash = require('connect-flash');
 
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -84,7 +85,10 @@ app.use('/brand', brandRoutes)
 app.get('/', (req, res) => {
     res.render('layouts/layout')
 })
+// app.post('/products', upload.single('image'), (req, res) => {
 
+//     res.json({ status: "success" })
+// })
 
 app.get('*', (req, res, next) => {
     res.send("404, Not found").status(404);
