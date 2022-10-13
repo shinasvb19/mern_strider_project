@@ -12,6 +12,7 @@ const categoryRoutes = require('./routes/category-routes');
 const subcategoryRoutes = require('./routes/subcategory-routes');
 const productRoutes = require('./routes/productRoutes');
 const brandRoutes = require('./routes/brandRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
@@ -79,12 +80,13 @@ app.use('/admin', adminRoutes);
 app.use('/categorys', categoryRoutes);
 app.use('/subcategorys', subcategoryRoutes);
 app.use('/products', productRoutes);
-app.use('/brand', brandRoutes)
+app.use('/brand', brandRoutes);
+app.use('/', dashboardRoutes);
 
 
-app.get('/', (req, res) => {
-    res.render('layouts/layout')
-})
+// app.get('/', (req, res) => {
+//     res.render('layouts/layout')
+// })
 // app.post('/products', upload.single('image'), (req, res) => {
 
 //     res.json({ status: "success" })

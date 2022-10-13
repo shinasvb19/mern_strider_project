@@ -6,7 +6,8 @@ const productController = require("../controllers/productController");
 const router = express.Router();
 router.route('/')
     .get(productController.productPage)
-
-router.post(('/'), upload.array('image'), productController.productPost)
-
+    .post(upload.array('image'), productController.productPost)
+router.post('/fetch', productController.productLookup);
+router.get('/show', productController.showProducts);
+router.get('/edit', productController.showEdit);
 module.exports = router;

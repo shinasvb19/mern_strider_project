@@ -7,37 +7,49 @@ ObjectId = Schema.ObjectId;
 const productSchema = new Schema({
     product_name: {
         type: String,
-
+        unique: true,
         trim: true
     },
     category_id: ObjectId,
-    sub_category_id: ObjectId,
+    subcategory_id: ObjectId,
+    brand_id: ObjectId,
     description: {
         type: String,
 
         trim: true
     },
-    brand_id: ObjectId,
 
-    product_size: {
-        type: Number,
 
-        trim: true
-    },
-    stock: {
-        type: Number,
+    product_size: [{
+        small: {
+            small_stock: Number
+        },
+        medium: {
+            medium_stock: Number
+        },
+        large: {
+            large_stock: Number
+        }
 
-        trim: true
-    },
+    }
+    ]
+    ,
     price: {
         type: Number,
 
         trim: true
     },
+    mrp: {
+        type: Number,
+
+        trim: true
+    },
     image: [
+
         {
             url: String,
-            filename: String
+            filename: String,
+
         }
     ]
 })

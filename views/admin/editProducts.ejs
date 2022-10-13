@@ -199,15 +199,99 @@
                                     <div class="col-md-8 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Brand</h4>
-                                                <form action="/brand" method="post">
-                                                    <!-- <div class="form-group"> -->
-                                                    <label>Add your Brand</label>
-                                                    <input type="text" class="form-control" placeholder="brand"
-                                                        name="brand" aria-label="brand" required>
-                                                    <!-- </div> -->
+
+                                                <h4 class="card-title">PRODUCT</h4>
+                                                <h4 class="text-danger">
+
+                                                </h4>
+
+
+                                                <form action="/products" enctype="multipart/form-data" method="POST">
+                                                    <label class="mt-2">product name</label>
+                                                    <input type="text" class="form-control mt-2"
+                                                        placeholder="product name" name="product_name"
+                                                        aria-label="product name" required />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+
+                                                            <label class="mt-2" for="category">Choose a category</label>
+
+                                                            <select class="form-control mt-2" placeholder="category"
+                                                                name="category_id" id="category_id">plz select
+
+
+                                                                <option value="">
+
+                                                                </option>
+
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6 mt-2">
+                                                            <label class="mt-2" for="category">Choose a
+                                                                subcategory</label>
+                                                            <div class="" id="subcategory">
+
+                                                            </div>
+                                                            <!-- <label class="mt-2" for="category">Choose a
+                                                                sub-category</label> -->
+
+                                                        </div>
+                                                    </div>
+                                                    <label class="mt-2" for="Brand">Choose a brand</label>
+                                                    <select class="form-control mt-2" placeholder="Brand" name="brand"
+                                                        id="brand">
+
+                                                        <option value="">
+
+                                                        </option>
+
+
+                                                    </select>
+                                                    <label class="mt-2">product description</label>
+                                                    <input type="text" class="form-control mt-2"
+                                                        placeholder="product description" name="description"
+                                                        aria-label="product description" required />
+                                                    <div class="row">
+
+                                                        <div class="col-md-4">
+                                                            <label class="mt-2">small size</label>
+                                                            <input type="text" class="form-control mt-2"
+                                                                placeholder="product stock" name="small_stock"
+                                                                aria-label="product stock" required />
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="mt-2">medium size</label>
+                                                            <input type="text" class="form-control mt-2"
+                                                                placeholder="product stock" name="medium_stock"
+                                                                aria-label="product stock" required />
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="mt-2">large size</label>
+                                                            <input type="text" class="form-control mt-2"
+                                                                placeholder="product stock" name="large_stock"
+                                                                aria-label="product stock" required />
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="mt-2">price</label>
+                                                            <input type="text" class="form-control mt-2"
+                                                                placeholder="price" name="price" aria-label="price"
+                                                                required />
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="mt-2">mrp</label>
+                                                            <input type="text" class="form-control mt-2"
+                                                                placeholder="mrp" name="mrp" aria-label="mrp"
+                                                                required />
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="col-md-12 mt-4">product image</label>
+                                                            <input class="col-md-12 mt-2" type="file" name="image"
+                                                                class="primary" multiple />
+                                                        </div>
+                                                    </div>
                                                     <div class="text-danger">
-                                                        <%=message%>
+
                                                     </div>
                                                     <input type="submit"
                                                         class="btn-blue btn-primary btn-md rounded mt-3 " type="submit">
@@ -215,51 +299,6 @@
 
                                                 </form>
 
-
-                                                <div class="col-lg-12 grid-margin stretch-card">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title">Category Table</h4>
-                                                            <p class="card-description">
-                                                                Add Category <code>.table</code>
-                                                            </p>
-                                                            <div class="table-responsive">
-                                                                <table class="table">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Nos.</th>
-                                                                            <th>CATEGORY</th>
-                                                                            <th>DELETE</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <% let number=1; for(value of brand){%>
-
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <%=number%>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <%=value.brand%>
-                                                                                </td>
-
-                                                                                <td>
-                                                                                    <form method="post"
-                                                                                        action="/brand/<%=value._id%>?_method=delete">
-                                                                                        <button class="btn btn-danger"
-                                                                                            id="delete">delete</button>
-                                                                                    </form>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <% number++;} %>
-                                                                    </tbody>
-                                                                </table>
-                                                                \
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
                                             </div>
                                         </div>
@@ -292,4 +331,33 @@
         </div>
         <!-- container-scroller -->
         <!-- plugins:js -->
+        <!-- <script>
+            const category = document.getElementById("category_id");
+
+            category.addEventListener("change", function () {
+                let categoryId = category.value;
+
+                const subCategoryField = document.getElementById('subcategory');
+                let option = '';
+                fetch('/products/fetch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ categoryId })
+                }).then(res => res.json()).then(data => {
+                    let subCategory = data.subcategory;
+                    if (subCategory.length > 0) {
+                        option += `<select id="subCategoryId" name="subcategory" class="form-control">`;
+                        subCategory.forEach((eachSubCategory) => {
+                            option += `<option value="${eachSubCategory._id}">${eachSubCategory.subcategory}</option>`;
+                        });
+                        option += `</select>`;
+                        subCategoryField.innerHTML = option;
+                    } else {
+                        subCategoryField.innerHTML = `<select id="subCategoryId" name="subcategory" class="form-control"><option value=" g">Choose..</option></select>`;
+                    }
+
+                })
+            });
+        </script> -->
+
         <%- include('../partials/end') %>

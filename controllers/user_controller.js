@@ -1,6 +1,7 @@
 const User = require("../models/userSchema");
 const Admin = require("../models/adminSchema");
 const bcrypt = require('bcrypt');
+const Product = require("../models/productSchema");
 const signupPage = (req, res) => {
     res.render('usersignup')
 }
@@ -32,6 +33,7 @@ const signinPage = (req, res) => {
 const signin = async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
         res.render('layouts/layout')
