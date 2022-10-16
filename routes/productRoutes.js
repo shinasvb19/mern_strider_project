@@ -10,4 +10,7 @@ router.route('/')
 router.post('/fetch', productController.productLookup);
 router.get('/show', productController.showProducts);
 router.get('/edit', productController.showEdit);
+router.post('/show', productController.postUpdate);
+// router.get('/form', productController.editProductForm);
+router.put('/edit/:uid', upload.array('image'), productController.findUpdate);
 module.exports = router;

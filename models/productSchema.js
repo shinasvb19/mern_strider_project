@@ -18,8 +18,11 @@ const productSchema = new Schema({
 
         trim: true
     },
+    details: {
+        type: String,
 
-
+        trim: true
+    },
     product_size: [{
         small: {
             small_stock: Number

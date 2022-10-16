@@ -224,21 +224,24 @@
                                                                     <td>
                                                                         <%=value.category[0].category%>
                                                                     </td>
-                                                                    <% for(values of subcategoryFind) {%>
-                                                                        <td>
-                                                                            <%=values.subcategory[0].subcategory%>
+
+                                                                    <td>
+                                                                        <%=value.subcategory[0].subcategory%>
+                                                                    </td>
+
+
+                                                                    <td>
+                                                                        <form action="/products/show" method="post">
+
+                                                                            <input type="hidden" name="_id"
+                                                                                value="<%=value._id%>">
+                                                                            <button class="btn btn-primary"
+                                                                                id="edit">edit</button>
+                                                                    </td>
+
+                                                                    </form>
+                                                                    <% } %>
                                                                         </td>
-                                                                        <% } %>
-                                                                            <td>
-                                                                                <form action="/" method="post">
-
-                                                                                    <button class="btn btn-primary"
-                                                                                        id="edit">edit</button>
-                                                                            </td>
-
-                                                                            <% } %>
-                                                                                </form>
-                                                                                </td>
                                                                 </tr>
 
                                                         </tbody>

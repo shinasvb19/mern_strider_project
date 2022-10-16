@@ -1,3 +1,4 @@
+const { findByIdAndUpdate } = require("../models/adminSchema");
 const Brand = require("../models/brandSchema");
 const Category = require("../models/categorySchema");
 const { aggregate } = require("../models/productSchema");
@@ -19,10 +20,10 @@ const productPage = async (req, res) => {
 }
 const productPost = async (req, res) => {
 
-    const { description, small_stock, medium_stock, large_stock, price, mrp, category_id, brand_id, subcategory_id } = req.body
+    const { description, small_stock, medium_stock, large_stock, price, mrp, category_id, brand_id, subcategory_id, details } = req.body
     let { product_name } = req.body
     product_name = product_name.toLowerCase();
-    const product = new Product({ product_name, description, price, mrp, category_id, brand_id, subcategory_id })
+    const product = new Product({ product_name, description, price, mrp, category_id, brand_id, subcategory_id, details })
 
     product.product_size = [{
         small: {
@@ -64,19 +65,116 @@ const showProducts = async (req, res) => {
             from: 'categories',
             localField: 'category_id', foreignField: '_id', as: 'category'
         }
-    }])
-    const subcategoryFind = await Product.aggregate([{
+    },
+    {
         $lookup: {
             from: 'subcategories',
             localField: 'subcategory_id', foreignField: '_id', as: 'subcategory'
         }
+
     }])
-    // res.json(productFind)
-    res.render('admin/showProducts', { categoryFind, subcategoryFind });
+    // const subcategoryFind = await Product.aggregate([{
+    //     $lookup: {
+    //         from: 'subcategories',
+    //         localField: 'subcategory_id', foreignField: '_id', as: 'subcategory'
+    //     }
+
+    // }])
+    console.log(categoryFind)
+    res.render('admin/showProducts', { categoryFind });
 }
 const showEdit = async (req, res) => {
+
     res.render('admin/editProducts')
 }
+const postUpdate = async (req, res) => {
+    const id = await Product.findById(req.body)
+
+    const categoryId = id.category_id;
+    const subcategoryId = id.subcategory_id;
+    const brandId = id.brand_id;
+    const subcategoryFind = await Product.aggregate([{
+        $match: {
+            category_id: categoryId
+        }
+
+    },
+    {
+        $lookup: {
+            from: "categories",
+            localField: "category_id",
+            foreignField: "_id",
+            as: "category"
+        }
+
+    }])
+    const subcategoryLookup = await Product.aggregate([{
+        $match: {
+            subcategory_id: subcategoryId
+        }
+
+    },
+    {
+        $lookup: {
+            from: "subcategories",
+            localField: "subcategory_id",
+            foreignField: "_id",
+            as: "subcategory"
+        }
+
+    }])
+    const brandLookup = await Product.aggregate([{
+        $match: {
+            brand_id: brandId
+        }
+
+    },
+    {
+        $lookup: {
+            from: "brands",
+            localField: "brand_id",
+            foreignField: "_id",
+            as: "brand"
+        }
+
+    }])
+    // console.log(brandLookup)
+    const brandFind = await Brand.find({})
+    const categoryPost = await Category.find({})
+    res.render('admin/editProducts', { id, subcategoryFind, subcategoryLookup, categoryPost, brandLookup, brandFind })
+}
+const findUpdate = async (req, res) => {
+    const { uid } = req.params
+    console.log(uid)
+    const { product_name, description, details, small_stock, medium_stock, large_stock, price, mrp, category_id, brand_id, subcategory_id } = req.body
+    const product = await Product.findByIdAndUpdate(uid, { product_name, description, details, price, mrp, category_id, brand_id, subcategory_id })
+
+    product.product_size = [{
+        small: {
+            small_stock
+        },
+        medium: {
+            medium_stock
+        },
+        large: {
+            large_stock
+        }
+
+    }]
+
+    product.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    // product.image.push(...imgs);
+    await product.save();
+    res.redirect('/products/show')
+}
+// const editProductForm = (req, res) => {
+//     res.render('admin/editProduct')
+// }
+// // const updateId = await User.findById()
+// // res.render('edit', { updateId });
+// exports.editProductForm = editProductForm;
+exports.findUpdate = findUpdate;
+exports.postUpdate = postUpdate;
 exports.showEdit = showEdit;
 exports.showProducts = showProducts;
 exports.productLookup = productLookup;

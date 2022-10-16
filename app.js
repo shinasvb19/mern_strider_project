@@ -18,6 +18,7 @@ const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate')
 // const multer = require('multer')
 // const upload = multer({ dest: 'uploads/' })
 // const flash = require('connect-flash');
@@ -72,7 +73,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
     next();
 })
-
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/layout');
 app.use('/users', userRoutes);

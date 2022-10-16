@@ -206,35 +206,47 @@
                                                 </h4>
 
 
-                                                <form action="/products" enctype="multipart/form-data" method="POST">
+                                                <form action="/products/edit/<%=id._id%>?_method=PUT" method="POST"
+                                                    enctype="multipart/form-data">
                                                     <label class="mt-2">product name</label>
                                                     <input type="text" class="form-control mt-2"
                                                         placeholder="product name" name="product_name"
-                                                        aria-label="product name" required />
+                                                        aria-label="product name" value="<%=id.product_name%>"
+                                                        required />
                                                     <div class="row">
                                                         <div class="col-md-6">
 
                                                             <label class="mt-2" for="category">Choose a category</label>
 
                                                             <select class="form-control mt-2" placeholder="category"
-                                                                name="category_id" id="category_id">plz select
+                                                                name="category_id" id="editcategory_id">plz select
 
 
-                                                                <option value="">
 
-                                                                </option>
-
-
+                                                                <%for(value of categoryPost){%>
+                                                                    <option value="<%=value._id%>"
+                                                                        <%if(subcategoryFind[0].category[0].category==(value.category)){
+                                                                        %> selected
+                                                                        <%}%>>
+                                                                            <%=value.category%>
+                                                                    </option>
+                                                                    <% } %>
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-6 mt-2">
+                                                        <div class=" col-md-6 mt-2">
                                                             <label class="mt-2" for="category">Choose a
                                                                 subcategory</label>
-                                                            <div class="" id="subcategory">
-
+                                                            <div class="" id="editsubcategory">
+                                                                <select id="subCategoryId" name="subcategory_id"
+                                                                    class="form-control">
+                                                                    <option
+                                                                        value="<%=subcategoryLookup[0].subcategory[0]._id%>">
+                                                                        <%=subcategoryLookup[0].subcategory[0].subcategory%>
+                                                                    </option>
+                                                                </select>
                                                             </div>
-                                                            <!-- <label class="mt-2" for="category">Choose a
-                                                                sub-category</label> -->
+                                                            <label class="mt-2" for="category">Choose a
+                                                                sub-category</label>
 
                                                         </div>
                                                     </div>
@@ -242,47 +254,63 @@
                                                     <select class="form-control mt-2" placeholder="Brand" name="brand"
                                                         id="brand">
 
-                                                        <option value="">
+                                                        <% for(value of brandFind){ %>
 
-                                                        </option>
-
-
+                                                            <option value="<%=value.id%>"
+                                                                <%if(brandLookup[0].brand[0].brand==(value.brand)){ %>"
+                                                                selected
+                                                                <%}%>>
+                                                                    <%=value.brand%>
+                                                            </option>
+                                                            <% } %>
                                                     </select>
                                                     <label class="mt-2">product description</label>
                                                     <input type="text" class="form-control mt-2"
                                                         placeholder="product description" name="description"
-                                                        aria-label="product description" required />
-                                                    <div class="row">
+                                                        aria-label="product description" value="<%= id.description %>"
+                                                        required />
+                                                    <label class="mt-2">product details</label>
+                                                    <textarea rows="4" columns="2" class="form-control mt-2"
+                                                        placeholder="product details" name="details"
+                                                        aria-label="product details" value="<%=id.details%>"
+                                                        required></textarea>
 
+
+                                                    <div class="row">
                                                         <div class="col-md-4">
                                                             <label class="mt-2">small size</label>
                                                             <input type="text" class="form-control mt-2"
                                                                 placeholder="product stock" name="small_stock"
-                                                                aria-label="product stock" required />
+                                                                aria-label="product stock" required
+                                                                value="<%= id.product_size[0].small.small_stock%>" />
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label class="mt-2">medium size</label>
                                                             <input type="text" class="form-control mt-2"
                                                                 placeholder="product stock" name="medium_stock"
-                                                                aria-label="product stock" required />
+                                                                aria-label="product stock"
+                                                                value="<%= id.product_size[0].medium.medium_stock%>"
+                                                                required />
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label class="mt-2">large size</label>
                                                             <input type="text" class="form-control mt-2"
                                                                 placeholder="product stock" name="large_stock"
-                                                                aria-label="product stock" required />
+                                                                aria-label="product stock"
+                                                                value="<%= id.product_size[0].large.large_stock%>"
+                                                                required />
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label class="mt-2">price</label>
                                                             <input type="text" class="form-control mt-2"
                                                                 placeholder="price" name="price" aria-label="price"
-                                                                required />
+                                                                value="<%= id.price %>" required />
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label class="mt-2">mrp</label>
                                                             <input type="text" class="form-control mt-2"
                                                                 placeholder="mrp" name="mrp" aria-label="mrp"
-                                                                required />
+                                                                value="<%= id.mrp %>" required />
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label class="col-md-12 mt-4">product image</label>
@@ -331,13 +359,13 @@
         </div>
         <!-- container-scroller -->
         <!-- plugins:js -->
-        <!-- <script>
-            const category = document.getElementById("category_id");
+        <script>
+            const category = document.getElementById("editcategory_id");
 
             category.addEventListener("change", function () {
                 let categoryId = category.value;
 
-                const subCategoryField = document.getElementById('subcategory');
+                const subCategoryField = document.getElementById('editsubcategory');
                 let option = '';
                 fetch('/products/fetch', {
                     method: 'POST',
@@ -358,6 +386,6 @@
 
                 })
             });
-        </script> -->
+        </script>
 
         <%- include('../partials/end') %>
