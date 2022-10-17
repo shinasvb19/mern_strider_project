@@ -1,23 +1,23 @@
 const Brand = require("../models/brandSchema")
 const Category = require("../models/categorySchema")
 const Product = require("../models/productSchema")
-
+const mongoose = require('mongoose')
 
 const dashboard = async (req, res) => {
     const product = await Product.find({})
     res.render('user/layout', { product })
 }
 const showProduct = async (req, res) => {
-    const { uid } = req.params;
-
+    let { uid } = req.params;
+    uid = mongoose.Types.ObjectId(uid);
+    // console.log(uid)
     const product = await Product.findById(uid)
 
-    const categoryId = product.category_id;
-    const subcategoryId = product.subcategory_id;
-    const brandId = product.brand_id;
+
+
     const subcategoryFind = await Product.aggregate([{
         $match: {
-            category_id: categoryId
+            _id: uid
         }
 
     },
@@ -32,7 +32,7 @@ const showProduct = async (req, res) => {
     }])
     const subcategoryLookup = await Product.aggregate([{
         $match: {
-            subcategory_id: subcategoryId
+            _id: uid
         }
 
     },
@@ -47,7 +47,7 @@ const showProduct = async (req, res) => {
     }])
     const brandLookup = await Product.aggregate([{
         $match: {
-            brand_id: brandId
+            _id: uid
         }
 
     },
@@ -60,9 +60,28 @@ const showProduct = async (req, res) => {
         }
 
     }])
-    // console.log(brandLookup)
-
-    res.render('user/productDetails', { product, subcategoryFind, subcategoryLookup, brandLookup })
+    let cat_id = product.category_id;
+    cat_id = mongoose.Types.ObjectId(cat_id);
+    // let subCat_id = product.category_id;
+    // subCat_id = mongoose.Types.ObjectId(subCat_id);
+    const relatedProducts = await Product.find({
+        category_id: cat_id
+    }).limit(8)
+    // console.log(relatedProducts)
+    res.render('user/productDetails', { product, subcategoryFind, subcategoryLookup, brandLookup, relatedProducts })
 }
+const productFetch = async (req, res) => {
+    // console.log(req.body);
+
+    console.log(req.body.productId)
+
+    const product = await Product.findById({
+        _id: id
+    }
+    )
+    // console.log(subcategory)
+    res.send({ product });
+}
+exports.productFetch = productFetch;
 exports.showProduct = showProduct;
 exports.dashboard = dashboard;

@@ -4,7 +4,7 @@ const Category = require("../models/categorySchema");
 const { aggregate } = require("../models/productSchema");
 const Product = require("../models/productSchema");
 const Subcategory = require("../models/subCategorySchema");
-
+const mongoose = require('mongoose');
 
 const productPage = async (req, res) => {
     const brand = await Brand.find({});
@@ -89,13 +89,14 @@ const showEdit = async (req, res) => {
 }
 const postUpdate = async (req, res) => {
     const id = await Product.findById(req.body)
+    const uid = id._id
 
     const categoryId = id.category_id;
     const subcategoryId = id.subcategory_id;
     const brandId = id.brand_id;
     const subcategoryFind = await Product.aggregate([{
         $match: {
-            category_id: categoryId
+            _id: uid
         }
 
     },
@@ -110,7 +111,7 @@ const postUpdate = async (req, res) => {
     }])
     const subcategoryLookup = await Product.aggregate([{
         $match: {
-            subcategory_id: subcategoryId
+            _id: uid
         }
 
     },
@@ -125,7 +126,7 @@ const postUpdate = async (req, res) => {
     }])
     const brandLookup = await Product.aggregate([{
         $match: {
-            brand_id: brandId
+            _id: uid
         }
 
     },
