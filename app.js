@@ -13,6 +13,7 @@ const subcategoryRoutes = require('./routes/subcategory-routes');
 const productRoutes = require('./routes/productRoutes');
 const brandRoutes = require('./routes/brandRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const cartRoutes = require('./routes/cartRoutes')
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
@@ -82,6 +83,7 @@ app.use('/categorys', categoryRoutes);
 app.use('/subcategorys', subcategoryRoutes);
 app.use('/products', productRoutes);
 app.use('/brand', brandRoutes);
+app.use('/cart', cartRoutes);
 app.use('/', dashboardRoutes);
 
 

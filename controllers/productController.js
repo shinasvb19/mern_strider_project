@@ -25,19 +25,9 @@ const productPost = async (req, res) => {
     product_name = product_name.toLowerCase();
     const product = new Product({ product_name, description, price, mrp, category_id, brand_id, subcategory_id, details })
 
-    product.product_size = [{
-        small: {
-            small_stock
-        },
-        medium: {
-            medium_stock
-        },
-        large: {
-            large_stock
-        }
-
-    }]
-
+    product.product_size.small_stock = small_stock;
+    product.product_size.medium_stock = medium_stock;
+    product.product_size.large_stock = large_stock;
     product.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
     try {
         await product.save();
@@ -45,7 +35,7 @@ const productPost = async (req, res) => {
     catch (error) {
         console.log(error)
     }
-
+    console.log(req.body)
     res.redirect('/products');
 }
 const productLookup = async (req, res) => {
@@ -91,9 +81,7 @@ const postUpdate = async (req, res) => {
     const id = await Product.findById(req.body)
     const uid = id._id
 
-    const categoryId = id.category_id;
-    const subcategoryId = id.subcategory_id;
-    const brandId = id.brand_id;
+
     const subcategoryFind = await Product.aggregate([{
         $match: {
             _id: uid
@@ -150,18 +138,9 @@ const findUpdate = async (req, res) => {
     const { product_name, description, details, small_stock, medium_stock, large_stock, price, mrp, category_id, brand_id, subcategory_id } = req.body
     const product = await Product.findByIdAndUpdate(uid, { product_name, description, details, price, mrp, category_id, brand_id, subcategory_id })
 
-    product.product_size = [{
-        small: {
-            small_stock
-        },
-        medium: {
-            medium_stock
-        },
-        large: {
-            large_stock
-        }
-
-    }]
+    product.product_size.small_stock = small_stock;
+    product.product_size.medium_stock = medium_stock;
+    product.product_size.large_stock = large_stock;
 
     product.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
     // product.image.push(...imgs);

@@ -23,19 +23,19 @@ const productSchema = new Schema({
 
         trim: true
     },
-    product_size: [{
-        small: {
-            small_stock: Number
+    product_size: {
+        small_stock: {
+            type: Number
         },
-        medium: {
-            medium_stock: Number
+        medium_stock: {
+            type: Number
         },
-        large: {
-            large_stock: Number
+        large_stock: {
+            type: Number
         }
 
     }
-    ]
+
     ,
     price: {
         type: Number,

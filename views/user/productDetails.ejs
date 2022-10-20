@@ -54,82 +54,85 @@
                         <p>
                             <%=product.description%>
                         </p>
-                        <div class="product__details__button">
-                            <div class="quantity">
-                                <span>Quantity:</span>
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+                        <form action="/cart" method="post">
+                            <div class="product__details__button">
+                                <div class="quantity">
+                                    <span>Quantity:</span>
+                                    <div class="pro-qty">
+                                        <input type="text" value="1" name="product_quantity">
+                                    </div>
                                 </div>
+                                <input type="text" value="<%=product._id%>" name="product_id" hidden>
+                                <button class="cart-btn" id="add-to-cart" style="border:none;"><span
+                                        class="icon_bag_alt"></span>
+                                    Add to
+                                    cart</button>
+
+                                <ul>
+                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                </ul>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
-                            <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__details__widget">
-                            <ul>
-                                <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
+
+                            <div class="product__details__widget">
+                                <ul>
+                                    <li>
+                                        <span>Availability:</span>
+                                        <!-- <div class="stock__checkbox"> -->
                                         <label for="stockin">
                                             <div id="in_stock">
 
                                             </div>
 
-                                            <input type="checkbox" id="stockin">
+                                            <!-- <input type="checkbox" id="stockin">
                                             <span class="checkmark"></span>
                                         </label>
-                                    </div>
-                                </li>
+                                    </div> -->
+                                    </li>
 
-                                <li>
-                                    <span>Available size:</span>
-                                    <div class="size__btn">
-                                        <label for="s-btn" class="active">
-                                            <input type="radio" id="s-btn" value="<%=product._id%>">
-                                            s
+                        </form>
+                        <li>
+                            <span>Available size: </span>
+                            <div class="size__btn">
+                                <% let t=7;if(product.product_size.small_stock>0 ) {%>
+                                    <label for="s-btn" class="active">
+                                        <input type="radio" id="s-btn" value="small_size" name="product_size" checked>
+                                        s
+                                    </label>
+                                    <% }else{ t=1; } if(product.product_size.medium_stock>0) { %>
+
+
+                                        <label for="m-btn" <% if(t===1) {%> class="active" <% }%>>
+                                                <input type="radio" id="m-btn" value="medium_size" name="product_size"
+                                                    <% if(t===1) {%>checked="checked" <% }%> >
+                                                    m
                                         </label>
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Promotions:</span>
-                                    <p>Free shipping</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>Description</h6>
-                                <p>
-                                    <%=product.description%>
-                                </p>
+
+                                        <% }else{t=2} if(product.product_size.large_stock>0) {%>
+
+
+                                            <label for="l-btn" <% if(t===2) {%> class="active" <% }%>
+                                                    >
+                                                    <input type="radio" id="l-btn" value="large_size"
+                                                        name="product_size" <%if(t===2) {%>checked="checked" <% }%> >
+                                                        l
+                                            </label>
+                                            <% }%>
+
                             </div>
 
-                        </div>
+
+
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <h6>Description</h6>
+                                    <p>
+                                        <%=product.description%>
+                                    </p>
+                                </div>
+
+                            </div>
                     </div>
                 </div>
             </div>
@@ -222,10 +225,72 @@
             </div>
         </div>
     </div>
-    <script>
+    <!-- <script>
         const checkBox = document.getElementById("s-btn");
+        const checkBox2 = document.getElementById("m-btn");
+        const checkBox3 = document.getElementById('l-btn');
+        const addToCart = document.getElementById('add-to-cart')
+        checkBox.addEventListener("click", function () {
+            let productId = checkBox.value;
 
-        checkBox.addEventListener("change", function () {
+            const inStock = document.getElementById('in_stock');
+            let option = '';
+            fetch('/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            }).then(res => res.json()).then(data => {
+                let productDetails = data.product;
+                if (productDetails.product_size[0].small.small_stock > 0) {
+                    option += `<span id="size_of" name="sizeof">instock</span>`;
+                    inStock.innerHTML = option;
+                } else {
+                    inStock.innerHTML = `<span id="size_of" name="sizeof"> out of stock</span>`;
+                }
+
+            })
+        });
+        checkBox2.addEventListener("click", function () {
+            let productId = checkBox.value;
+
+            const inStock = document.getElementById('in_stock');
+            let option = '';
+            fetch('/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            }).then(res => res.json()).then(data => {
+                let productDetails = data.product;
+                if (productDetails.product_size[0].medium.medium_stock > 0) {
+                    option += `<span id="size_of" name="sizeof">instock</span>`;
+                    inStock.innerHTML = option;
+                } else {
+                    inStock.innerHTML = `<span id="size_of" name="sizeof"> out of stock</span>`;
+                }
+
+            })
+        });
+        checkBox3.addEventListener("click", function () {
+            let productId = checkBox.value;
+
+            const inStock = document.getElementById('in_stock');
+            let option = '';
+            fetch('/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            }).then(res => res.json()).then(data => {
+                let productDetails = data.product;
+                if (productDetails.product_size[0].large.large_stock > 0) {
+                    option += `<span id="size_of" name="sizeof">instock</span>`;
+                    inStock.innerHTML = option;
+                } else {
+                    inStock.innerHTML = `<span id="size_of" name="sizeof"> out of stock</span>`;
+                }
+
+            })
+        });
+        checkBox.addEventListener("click", function () {
             let productId = checkBox.value;
 
             const inStock = document.getElementById('in_stock');
@@ -246,8 +311,7 @@
             })
         });
 
-
-    </script>
+    </script> -->
     <!-- Instagram End -->
 
     <!-- Footer Section Begin -->

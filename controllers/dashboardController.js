@@ -5,11 +5,16 @@ const mongoose = require('mongoose')
 
 const dashboard = async (req, res) => {
     const product = await Product.find({})
-    res.render('user/layout', { product })
+
+    const session = req.session.username
+
+    res.render('user/layout', { product, session })
+
 }
 const showProduct = async (req, res) => {
     let { uid } = req.params;
     uid = mongoose.Types.ObjectId(uid);
+    const session = req.session.username
     // console.log(uid)
     const product = await Product.findById(uid)
 
@@ -68,13 +73,13 @@ const showProduct = async (req, res) => {
         category_id: cat_id
     }).limit(8)
     // console.log(relatedProducts)
-    res.render('user/productDetails', { product, subcategoryFind, subcategoryLookup, brandLookup, relatedProducts })
+    res.render('user/productDetails', { product, subcategoryFind, subcategoryLookup, brandLookup, relatedProducts, session })
 }
 const productFetch = async (req, res) => {
     // console.log(req.body);
 
-    console.log(req.body.productId)
 
+    const id = req.body.productId
     const product = await Product.findById({
         _id: id
     }
