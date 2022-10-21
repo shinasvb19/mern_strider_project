@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 
 const cartPage = async (req, res) => {
     const session = req.session.username
-    const cartFind = await Cart.aggregate([{
+    const cartFind = await Cart.find({})
+    const cartAgregate = await Cart.aggregate([{
         $lookup: {
             from: 'categories',
             localField: 'category_id', foreignField: '_id', as: 'category'
