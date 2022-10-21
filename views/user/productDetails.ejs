@@ -59,9 +59,18 @@
                                 <div class="quantity">
                                     <span>Quantity:</span>
                                     <div class="pro-qty">
-                                        <input type="text" value="1" name="product_quantity">
+                                        <span class="dec qtybtn" style="border:none; background:none">
+
+                                            -
+                                        </span>
+                                        <input type="text" value="1" name="product_quantity" readonly>
+                                        <span class="inc qtybtn" style="border:none; background:none">
+
+                                            +
+                                </>
                                     </div>
                                 </div>
+                                
                                 <input type="text" value="<%=product._id%>" name="product_id" hidden>
                                 <button class="cart-btn" id="add-to-cart" style="border:none;"><span
                                         class="icon_bag_alt"></span>
@@ -118,12 +127,29 @@
                                                         l
                                             </label>
                                             <% }%>
-
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Promotions:</span>
+                                        <p>Free shipping</p>
+                                    </li>
+                                    </ul>
+                                </div>
                             </div>
-
-
-
-
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="product__details__tab">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                                        </li>
+                                    </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                     <h6>Description</h6>
