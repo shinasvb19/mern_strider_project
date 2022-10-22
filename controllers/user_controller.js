@@ -2,6 +2,10 @@ const User = require("../models/userSchema");
 const Admin = require("../models/adminSchema");
 const bcrypt = require('bcrypt');
 const Product = require("../models/productSchema");
+const mongoose = require('mongoose');
+const { findByIdAndUpdate } = require("../models/userSchema");
+const { required } = require("joi");
+const swal = require('sweetalert')
 const signupPage = (req, res) => {
 
     res.render('usersignup')
@@ -48,7 +52,29 @@ const signin = async (req, res) => {
     }
 
 }
+const profile = async (req,res)=>{
+    const session= req.session.username
+    let sessionId= req.session.user_id
+//    sessionId = mongoose.Types.ObjectId(sessionId);
+   const userDetails = await User.findById(sessionId)
+   console.log(userDetails)
+    res.render('user/userProfile',{session,userDetails})
+}
+const profilePut = async (req,res)=>{
+     const id = req.session.user_id
+     const username = req.session.username
+     const {firstName, lastName , mobile ,email} = req.body
+     const address = {country:req.body.country, address_line:req.body.address_line, town:req.body.town, 
+        state:req.body.state,post_code:req.body.post_code}
+     const update = await User.findByIdAndUpdate(id,{firstName, lastName,mobile,email,username,address}
+     )
+    // res.redirect('/')
+    }
+      
+    
 
+exports.profilePut = profilePut;
+exports.profile = profile;
 exports.signupPage = signupPage;
 exports.signup = signup;
 exports.signinPage = signinPage;

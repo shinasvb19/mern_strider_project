@@ -14,6 +14,7 @@ const productRoutes = require('./routes/productRoutes');
 const brandRoutes = require('./routes/brandRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const cartRoutes = require('./routes/cartRoutes')
+const checkoutRoutes = require('./routes/checkoutRoutes')
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
@@ -85,6 +86,8 @@ app.use('/products', productRoutes);
 app.use('/brand', brandRoutes);
 app.use('/cart', cartRoutes);
 app.use('/', dashboardRoutes);
+app.use('/checkout',checkoutRoutes);
+
 
 
 // app.get('/', (req, res) => {

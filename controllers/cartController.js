@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cartPage = async (req, res) => {
     let session = req.session.user_id
     session = mongoose.Types.ObjectId(session);
-    // const cardItem = await Cart.findOne({ user_id: session })
+    //  const cardItem = await Cart.findOne({ user_id: session })
 
     const cartAgregate = await Cart.aggregate([
         { $match: { user_id: session } },

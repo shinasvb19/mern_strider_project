@@ -1,0 +1,82 @@
+<% layout('/layouts/boilerplate') %>
+
+<section class="checkout spad">
+    <div class="container">
+        
+        <form action="/users/profile?_method=PUT" class="checkout__form" method="post">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-10">
+                    <h5>user profile</h5>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                        
+                            <div class="checkout__form__input">
+                                <p> first name<span>*</span></p>
+                                <input type="text" value="<% const firstname= userDetails ? userDetails.firstName: ' ' %> <%= firstname %>" name="firstName">
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="checkout__form__input">
+                                <p>Last Name <span>*</span></p>
+                                <input type="text" value="<% const lastname= userDetails ? userDetails.lastName: ' ' %> <%= lastname %>" name="lastName">
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="checkout__form__input">
+                                <p>Country <span>*</span></p>
+                                <input type="text" value="<% const country= userDetails ? userDetails.address[0].country: ' ' %> <%=country%>" name="country">
+                            </div> 
+                            <div class="checkout__form__input">
+                                <p>Address <span>*</span></p>
+                                <input type="text" placeholder="Street Address" value="<% const address= userDetails ? userDetails.address[0].address_line: ' ' %> <%=address%>" name="address_line">
+                              
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Town/City <span>*</span></p>
+                                <input type="text" value="<% const town= userDetails ? userDetails.address[0].town: ' ' %> <%=town%>" name="town">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>State <span>*</span></p>
+                                <input type="text" value="<% const state= userDetails ? userDetails.address[0].state: ' ' %> <%=state%>" name="state">
+                            </div>
+                            <div class="checkout__form__input">
+                                <p>Postcode/Zip <span>*</span></p>
+                                <input type="text" value="<% const post= userDetails ? userDetails.address[0].post_code: ' ' %> <%=post%>" name="post_code" >
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="checkout__form__input">
+                                <p>Phone <span>*</span></p>
+                                <input type="text" value="<% const phone= userDetails ? userDetails.mobile: ' ' %> <%=phone%>" name="mobile">
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="checkout__form__input">
+                                <p>Email <span>*</span></p>
+                                <input type="text" value="<% const email= userDetails ? userDetails.email: ' ' %> <%=email%>" name="email">
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+
+                            <button type="submit" class="btn-dark rounded-pill" onclick="popup()">update</button>
+                        </div>
+                     </div> 
+                             
+                </div>
+            </form>
+        </div>
+    </div>
+  
+</section>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    function popup(){
+        swal("SUCCESS", "profile updated successfuly", "success")
+    
+    .then(function() {
+    window.location = "/";
+});
+    }
+   
+</script>
