@@ -5,7 +5,8 @@ const Product = require("../models/productSchema");
 const mongoose = require('mongoose');
 const { findByIdAndUpdate } = require("../models/userSchema");
 const { required } = require("joi");
-const swal = require('sweetalert')
+const swal = require('sweetalert');
+const Cart = require("../models/cartSchema");
 const signupPage = (req, res) => {
 
     res.render('usersignup')
@@ -57,7 +58,7 @@ const profile = async (req,res)=>{
     let sessionId= req.session.user_id
 //    sessionId = mongoose.Types.ObjectId(sessionId);
    const userDetails = await User.findById(sessionId)
-   console.log(userDetails)
+ 
     res.render('user/userProfile',{session,userDetails})
 }
 const profilePut = async (req,res)=>{
@@ -70,9 +71,22 @@ const profilePut = async (req,res)=>{
      )
     // res.redirect('/')
     }
-      
-    
+const addressGet = async (req,res) =>{
+    const session = req.session.username
+    const user_id = req.session.user_id
+    const user = await User.findById(user_id)
+    const cart = await Cart.find({user_id})
 
+   res.render('user/profileAddress',{session,user,cart})
+}
+  const deleteAddress = async (req,res)=>{
+    const id = req.session.user_id
+
+    const addressId = req.params.id
+    await User.updateOne({id},{$pull:{address:{"_id":addressId}}});
+  } 
+exports.addressGet = addressGet;   
+exports.deleteAddress = deleteAddress;
 exports.profilePut = profilePut;
 exports.profile = profile;
 exports.signupPage = signupPage;

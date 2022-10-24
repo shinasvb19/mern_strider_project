@@ -2,6 +2,21 @@
 <% layout('/layouts/boilerplate') %>
 <!-- Checkout Section Begin -->
 
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                    <span>Shopping cart</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
         <div class="row">
@@ -10,70 +25,38 @@
                 here to enter your code.</h6>
             </div>
         </div>
+        
         <form action="#" class="checkout__form">
             <div class="row">
                 <div class="col-lg-8">
-                    <h5>Billing detail</h5>
+                    <h5>select address</h5>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>First Name <span>*</span></p>
-                                <input type="text">
-                            </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                    <%let number=1;let total=0; user.address.forEach(address => { %>
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <address class="form-check-label" for="flexRadioDefault1">
+                                        <label style="font-weight:bold;">address <%=number%> </label>
+                                        <br>
+                                        <%=user.firstName%> <%=user.lastName%><br> 
+                                        <%=address.address_line%>,
+                                        <%=address.town%>,
+                                        <%=address.state%><br> 
+                                        <%=address.country%><br> 
+                                        <%=user.mobile%><br> 
+                                        <%=address.post_code%><br> 
+                                    </address>
+                                    <%number++});%> 
+                                </div>
+                            </div>  
+                            <div class="col-12">
+                                <div class="col-lg-6">
+                                  
+                                    <button type="button" class="btn btn-danger rounded-pill mt-3" data-toggle="modal"
+                                        data-target="#exampleModalCenter">add new address</button>
+                                </div>
+                            </div>                     
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>Last Name <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="checkout__form__input">
-                                <p>Country <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__form__input">
-                                <p>Address <span>*</span></p>
-                                <input type="text" placeholder="Street Address">
-                                <input type="text" placeholder="Apartment. suite, unite ect ( optinal )">
-                            </div>
-                            <div class="checkout__form__input">
-                                <p>Town/City <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__form__input">
-                                <p>Country/State <span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__form__input">
-                                <p>Postcode/Zip <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>Phone <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>Email <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>Email <span>*</span></p>
-                                <input type="text">
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-12">
-                            
-                            </div>
-                        </div>
-                        
                     </div>
                     
                     <div class="col-lg-4">
@@ -84,17 +67,18 @@
                                     <li>
                                         <span class="top__text">Product</span>
                                         <span class="top__text__right">Total</span>
-                                    </li>
-                                    <li>01. Chain buck bag <span>$ 300.0</span></li>
-                                    <li>02. Zip-pockets pebbled<br /> tote briefcase <span>$ 170.0</span></li>
-                                    <li>03. Black jean <span>$ 170.0</span></li>
-                                    <li>04. Cotton shirt <span>$ 110.0</span></li>
+                                        </li>
+                                        <% cart.forEach((carts)=>{%>
+                                     
+                                    <li><%=carts.products[0].product_name%><span>₹<%const sum= carts.products[0].price *carts.itemQuantity; total+=sum %><%=sum%> </span></li>
+                                    <%}) %> 
+                                  
                                 </ul>
                             </div>
                             <div class="checkout__order__total">
                                 <ul>
-                                    <li>Subtotal <span>$ 750.0</span></li>
-                                    <li>Total <span>$ 750.0</span></li>
+                                    <li> sub total  <span>₹<%=total%></span> </li>
+                                    <li>Total <span>₹<%=total%></span></li>
                                 </ul>
                             </div>
                             <div class="checkout__order__widget">
@@ -102,19 +86,19 @@
                                     Create an acount?
                                     <input type="checkbox" id="o-acc">
                                     <span class="checkmark"></span>
-                                </label>
+                                
                                 <p>Create am acount by entering the information below. If you are a returing customer
                                 login at the top of the page.</p>
                                 <label for="check-payment">
                                     Cheque payment
                                     <input type="checkbox" id="check-payment">
                                     <span class="checkmark"></span>
-                                </label>
+                                
                                 <label for="paypal">
                                     PayPal
                                     <input type="checkbox" id="paypal">
                                     <span class="checkmark"></span>
-                                </label>
+                                
                             </div>
                             <button type="submit" class="site-btn">Place oder</button>
                         </div>
@@ -123,7 +107,104 @@
             </form>
         </div>
     </section>
-    <!-- Checkout Section End -->
-
-    <!-- Instagram Begin -->
-       
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">add address</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <section class="checkout spad">
+                                <div class="container">
+                                    
+                                    <form action="/checkout/address?_method=PUT" class="checkout__form" method="post">
+                                        <div class="row">
+                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-10">
+                                                <h5>user profile</h5>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                    
+                                                        <div class="checkout__form__input">
+                                                            <p> first name<span>*</span></p>
+                                                            <input type="text" value="" name="firstName"required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Last Name <span>*</span></p>
+                                                            <input type="text" value="" name="lastName"required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Country <span>*</span></p>
+                                                            <input type="text" value="" name="country"required>
+                                                        </div> 
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Address <span>*</span></p>
+                                                            <input type="text" placeholder="Street Address" value="" name="address_line"required>
+                                                          
+                                                        </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Town/City <span>*</span></p>
+                                                            <input type="text" value="" name="town"required>
+                                                        </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>State <span>*</span></p>
+                                                            <input type="text" value="" name="state"required>
+                                                        </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Postcode/Zip <span>*</span></p>
+                                                            <input type="text" value="" name="post_code"required >
+                                                        </div>
+                                                        </div>
+                                                   
+                                                    <div class="col-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Phone <span>*</span></p>
+                                                            <input type="text" value="" name="mobile" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="checkout__form__input">
+                                                            <p>Email <span>*</span></p>
+                                                            <input type="text" value="" name="email" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        </div>
+                                                
+                                                    
+                                                    <div class="col-lg-12 d-flex justify-content-center">
+                            
+                                                        <button type="add" class="btn-dark rounded-pill" >  add address  </button>
+                                                    </div>
+                                                 </div> 
+                                                         
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                              
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>

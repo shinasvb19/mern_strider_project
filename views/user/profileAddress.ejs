@@ -1,0 +1,29 @@
+<% layout('/layouts/boilerplate') %>
+<div class="container">
+
+    <div class="row">
+        <div class="col-12 mt-5">
+            <div class="form-check">
+                <%let number=1; user.address.forEach(address => { %>
+                   
+                    <address class="form-check-label" for="flexRadioDefault1">
+                        <label style="font-weight:bold;">address <%=number%> </label>
+                        <br> 
+                       
+                        <%=user.firstName%> <%=user.lastName%><br> 
+                        <%=address.address_line%>,
+                        <%=address.town%>,
+                        <%=address.state%><br> 
+                        <%=address.country%><br> 
+                        <%=user.mobile%><br> 
+                        <%=address.post_code%><br> 
+                    </address>
+                    <form action="/users/address/<%=address._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger" type="submit">delete</button>
+                    </form>
+                    
+                    <%number++});%> 
+                </div>
+            </div>  
+        </div>
+    </div>
