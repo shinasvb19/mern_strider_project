@@ -102,7 +102,21 @@ const placeOrder =async (req,res)=>{
     })
 }
 }
-
+const paymentSuccess = async (req,res) => {
+    const { response,payDetails,cartId,orderId } = req.body;
+    let hmac = crypto.createHmac('sha256', 'xtsqSRmSus2vixNarYwdAn37');
+    hmac = hmac.update(response.razorpay_order_id + "|" + response.razorpay_payment_id);
+    hmac = hmac.digest('hex');
+    await cartModel.findByIdAndDelete(cartId);
+    if(hmac == response.razorpay_signature) {
+        const successOrderId = mongoose.Types.ObjectId(payDetails.receipt);
+        await orderModel.findByIdAndUpdate(successOrderId,{orderStatus:'approved',paymentId:orderId});
+        req.flash('orderId',successOrderId);
+        res.send({paymentStatus:'success'});
+    }else {
+        res.send({paymentStatus:'fail'});
+    }
+}
    
 
 
