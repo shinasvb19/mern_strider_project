@@ -3,10 +3,12 @@ const Cart = require("../models/cartSchema")
 const User = require("../models/userSchema")
 const mongoose = require('mongoose')
 const { assert } = require("joi")
-const Checkout = require("../models/checkoutSchema");
+const Checkout = require("../models/checkoutSchema");;
 const Razorpay = require('razorpay')
 const { findById } = require("../models/cartSchema")
 let instance = new Razorpay({ key_id: process.env.key_id, key_secret:process.env.key_secret })
+const crypto = require('crypto')
+
 const checkoutPage = async (req,res)=>{
    const session = req.session.username
    let user_id = req.session.user_id
@@ -57,13 +59,15 @@ const placeOrder =async (req,res)=>{
     const checkout = new Checkout({
         user_id:userId,
           cart_item: cart.cart_item,
+          isCompleted: status,
           address,
           paymentStatus,
           bill,
           orderStatus: [{
-            date: Date.now(),
-            isCompleted:status
-          }],
+            date: Date.now()
+           }],
+           
+        
     });
     let insertId = checkout._id
     await checkout.save()
@@ -79,7 +83,7 @@ const placeOrder =async (req,res)=>{
        const mobile =  user.mobile
        const email = user.email
        const options = {
-        amount: checkout.bill*10, // amount in the smallest currency unit
+        amount:100 , // amount in the smallest currency unit checkout.bill
         currency: "INR",
         receipt: "" + insertId
     };
@@ -103,26 +107,33 @@ const placeOrder =async (req,res)=>{
 }
 }
 const paymentSuccess = async (req,res) => {
-    const { response,payDetails,cartId,orderId } = req.body;
-    let hmac = crypto.createHmac('sha256', 'xtsqSRmSus2vixNarYwdAn37');
+    const { response,payDetails,userDetails,orderId } = req.body;
+    let hmac = crypto.createHmac('sha256', process.env.key_secret);
     hmac = hmac.update(response.razorpay_order_id + "|" + response.razorpay_payment_id);
     hmac = hmac.digest('hex');
-    await cartModel.findByIdAndDelete(cartId);
+    // await cartModel.findByIdAndDelete(cartId);
     if(hmac == response.razorpay_signature) {
         const successOrderId = mongoose.Types.ObjectId(payDetails.receipt);
-        await orderModel.findByIdAndUpdate(successOrderId,{orderStatus:'approved',paymentId:orderId});
+    await Checkout.findByIdAndUpdate(successOrderId,{isCompleted:true});
+
         req.flash('orderId',successOrderId);
-        res.send({paymentStatus:'success'});
+        res.send({paymentStatus:'success',payDetails});
     }else {
         res.send({paymentStatus:'fail'});
-    }
 }
-   
+}
+   const successPage = async(req,res) =>{
+    const {id} = req.query
+    // console.log(id)
+ const checkout = await Checkout.findById(id)
+ console.log(checkout)
+    res.render('user/paymentSuccess')
+   }
 
 
 
-
-
+exports.successPage = successPage;
+exports.paymentSuccess = paymentSuccess;
 exports.placeOrder = placeOrder;
 exports.addAddress = addAddress;
 exports.checkoutPage = checkoutPage

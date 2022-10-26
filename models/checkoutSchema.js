@@ -63,12 +63,12 @@ const checkoutSchema = new mongoose.Schema({
         },
         date: {
             type: Date
-        },
-        isCompleted: {
-            type: Boolean,
-            default: false
-        } 
+        },  
     }],
+    isCompleted: {
+        type: Boolean,
+        default: false
+    } ,
     expectedDate: {
         type: Date,
         default: () => new Date( + new Date() + 7 * 24 * 60 * 1000)
@@ -76,4 +76,5 @@ const checkoutSchema = new mongoose.Schema({
 },{timestamps: true})
 
 
-module.exports =mongoose.model("Checkout",checkoutSchema)
+const Checkout =mongoose.model("Checkout",checkoutSchema)
+module.exports = Checkout;

@@ -272,4 +272,18 @@
             rzp1.open();
             e.preventDefault();
         }
+function paymentSuccess(response,payDetails,userDetails,orderId) {
+fetch('/checkout/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ response,payDetails,userDetails,orderId })
+}).then(res => res.json()).then(data => {
+    if(data.paymentStatus == 'success') {
+        // console.log(data.paymentStatus)
+        window.location = '/checkout/orderSuccess?id='+data.payDetails.receipt;
+    }else {
+        window.location = '/checkout/paymentFail';
+    }
+});
+}
   </script>

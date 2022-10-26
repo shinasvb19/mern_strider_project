@@ -6,5 +6,6 @@ router.route('/')
 
 router.put('/address',checkoutController.addAddress)
 router.post('/order',checkoutController.placeOrder)
-
+router.post('/verify',checkoutController.paymentSuccess)
 module.exports = router
+router.get('/orderSuccess',checkoutController.successPage)
