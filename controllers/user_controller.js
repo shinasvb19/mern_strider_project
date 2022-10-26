@@ -84,6 +84,7 @@ const addressGet = async (req,res) =>{
 
     const addressId = req.params.id
     await User.updateOne({id},{$pull:{address:{"_id":addressId}}});
+    res.redirect('/users/profile/address')
   } 
 exports.addressGet = addressGet;   
 exports.deleteAddress = deleteAddress;

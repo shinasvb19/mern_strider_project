@@ -26,15 +26,20 @@
             </div>
         </div>
         
-        <form action="#" class="checkout__form">
+        <form action="/" class="checkout__form" id="form" method="post">
             <div class="row">
                 <div class="col-lg-8">
                     <h5>select address</h5>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check">
+                                <input type="text" value="<%=user.firstName%><%=user.lastName%>" name="name" id="name" hidden>
+                                <input type="text" value="<%=user.email%>>" name="email" hidden>
+                                <input type="text" value="<%=user.mobile%>" name="mobile" hidden>
                                     <%let number=1;let total=0; user.address.forEach(address => { %>
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            
+                                    <input class="form-check-input" type="radio" name="address_line" id="radio" value="<%=address.address_line%>,<%=address.town%>,<%=address.state%><%=address.country%>,<%=user.mobile%>,<%=address.post_code%>" required>  
+                                     
                                     <address class="form-check-label" for="flexRadioDefault1">
                                         <label style="font-weight:bold;">address <%=number%> </label>
                                         <br>
@@ -45,7 +50,9 @@
                                         <%=address.country%><br> 
                                         <%=user.mobile%><br> 
                                         <%=address.post_code%><br> 
+                                        
                                     </address>
+
                                     <%number++});%> 
                                 </div>
                             </div>  
@@ -79,31 +86,26 @@
                                 <ul>
                                     <li> sub total  <span>₹<%=total%></span> </li>
                                     <li>Total <span>₹<%=total%></span></li>
+                                    <input type="text" name="bill" value="<%=total%>" hidden>
                                 </ul>
                             </div>
-                            <div class="checkout__order__widget">
-                                <label for="o-acc">
-                                    Create an acount?
-                                    <input type="checkbox" id="o-acc">
-                                    <span class="checkmark"></span>
-                                
-                                <p>Create am acount by entering the information below. If you are a returing customer
-                                login at the top of the page.</p>
+                            <div class="checkout__order__widget ">
                                 <label for="check-payment">
-                                    Cheque payment
-                                    <input type="checkbox" id="check-payment">
+                             Cash on delivery
+                                    <input type="radio" id="check-payment" name="paymentStatus" class="paymentStatus" value="cod" required>
                                     <span class="checkmark"></span>
-                                
+                                </label>
                                 <label for="paypal">
                                     PayPal
-                                    <input type="checkbox" id="paypal">
+                                    <input type="radio" id="paypal" name="paymentStatus" class="paymentStatus" value="online" required>
                                     <span class="checkmark"></span>
-                                
+                                </label>
                             </div>
-                            <button type="submit" class="site-btn">Place oder</button>
+                            <button type="submit" class="site-btn" id="submit">Place oder</button>
                         </div>
                     </div>
                 </div>
+              <input type="text" value="<%=cart[0]._id%>" name="cart_id" hidden>
             </form>
         </div>
     </section>
@@ -121,7 +123,7 @@
                             <section class="checkout spad">
                                 <div class="container">
                                     
-                                    <form action="/checkout/address?_method=PUT" class="checkout__form" method="post">
+                                    <form  class="checkout__form" method="post">
                                         <div class="row">
                                             <div class="col-lg-2"></div>
                                             <div class="col-lg-10">
@@ -208,3 +210,66 @@
                     </div>
                 </div>
             </div>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+      let form = document.querySelector('#form')
+      form.addEventListener("submit", (e)=> {
+        e.preventDefault();
+          const paymentStatus =form.elements.paymentStatus.value;
+          const  name = form.elements.name.value;
+          const email = form.elements.email.value;
+          const mobile = form.elements.mobile.value;
+          const address_line =  form.elements.address_line.value;
+          const cart_id = form.elements.cart_id.value;
+          const bill = form.elements.bill.value;
+            fetch('/checkout/order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({paymentStatus,name,email,mobile,address_line,cart_id,bill})
+            }).then(res=> res.json()).then(data=>{
+                // console.log(data.cod)
+                if(data.cod == true){
+                    window.location.href='/'
+                }
+                else{
+                    razerpayFunction(data.options, data.userDetails, data.orderId)
+                }
+            })
+            // }).then(res => res.json()).then(data => {
+            //     let productDetails = data.product;
+        
+          
+        });
+        function razerpayFunction(payDetails, userDetails, orderId) {
+         
+            let options = {
+                "key": "rzp_test_n8fwEdcfpjW6SY",
+                "amount": payDetails.amount,
+                "currency": "INR",
+                "name": "strider",
+                "description": "MyStore Payment",
+                "image": "http://localhost:3000/user/img/logo.png",
+                "order_id": orderId,
+                "handler": function (response) {
+                    paymentSuccess(response, payDetails, userDetails, orderId);
+                },
+                "prefill": {
+                    "name": userDetails.fullName,
+                    "email": userDetails.email,
+                    "contact": userDetails.mobile
+                },
+                "notes": {
+                    "address": userDetails.address
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            let rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                window.location = '/gp/checkout/paymentFail';
+            });
+            rzp1.open();
+            e.preventDefault();
+        }
+  </script>
