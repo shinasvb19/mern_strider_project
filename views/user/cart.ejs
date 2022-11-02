@@ -76,9 +76,9 @@
                 <div class="col-lg-6">
                     <div class="discount__content">
                         <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Apply</button>
+                        <form action="">
+                            <input type="text" name="coupon" id="coupon" placeholder="Enter your coupon code">
+                            <button type="button" id="couponBtn" class="site-btn">Apply</button>
                         </form>
                     </div>
                 </div>
@@ -177,5 +177,24 @@
                 success:  location.reload()
             })
         }
+       
 
+    </script>
+    <script>
+        document.getElementById('couponBtn').addEventListener('click',(e)=>{
+           const couponMain = document.getElementById('coupon')
+           const  couponName = couponMain.value
+           fetch('/coupon/compare', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({couponName})
+            }).then(res=> res.json()).then(data=>{
+                // console.log(data.cod)
+              
+            })
+        })
+
+        //   const couponCode =document.getElementById('couponValue')
+         
+      
     </script>

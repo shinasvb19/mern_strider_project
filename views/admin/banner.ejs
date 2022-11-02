@@ -1,0 +1,90 @@
+<%- include('../partials/mainhead') %>
+
+    <body>
+        <div class="container-scroller">
+            <!-- partial:../admin_files/partials/_navbar.html -->
+            <%- include('../partials/navbar') %>
+                <!-- partial -->
+                <div class="container-fluid page-body-wrapper">
+                    <!-- partial:../admin_files/partials/_settings-panel.html -->
+                    
+                    <!-- partial -->
+                    <!-- partial:../admin_files/partials/_sidebar.html -->
+                    <%- include('../partials/sidebar') %>
+                        <!-- partial -->
+                        <div class="main-panel">
+                            <div class="content-wrapper">
+                                <div class="row">
+                                    <div class="col-md-1">
+
+                                    </div>
+                                    <div class="col-md-8 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+
+                                                <h4 class="card-title">MANAGE BANNERS</h4>
+                                                <h4 class="text-danger">
+                                                   
+                                                </h4>
+
+                                                <%- include('../partials/flash') %>
+                                                <form action="/banner" enctype="multipart/form-data" method="POST">
+                                                    <label class="mt-2"> MAIN BANNER</label>
+                                                    <div class="row">
+
+                                                        <div class="col-md-12">
+                                                            
+                                                            <input type="text" class="form-control mt-2"
+                                                            placeholder="main banner" name="bannerOne"
+                                                            aria-label="main banner" required />
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            
+                                                            <input type="text" class="form-control mt-2"
+                                                            placeholder="description" name="desc"
+                                                            aria-label="description" required />
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label class="col-md-12 mt-4">banner1</label>
+                                                            <input class="col-md-12 mt-2" type="file" name="imageOne"
+                                                            class="primary" />  
+                                                    </div>
+                                                    <div class="col-md-4 mt-5">
+                                                    <button type="submit" class="btn btn-primary">submit</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                                
+                                                
+                                                
+                                                
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- content-wrapper ends -->
+                            <!-- partial:../admin_files/partials/_footer.html -->
+                            <footer class="footer">
+                                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                                    <span
+                                        class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright
+                                        ©
+                                        2021.
+                                        Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin
+                                            template</a> from BootstrapDash. All rights reserved.</span>
+                                    <span
+                                        class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted
+                                        &
+                                        made
+                                        with <i class="ti-heart text-danger ml-1"></i></span>
+                                </div>
+                            </footer>
+                            <!-- partial -->
+                        </div>
+                        <!-- main-panel ends -->
+                </div>
+                <!-- page-body-wrapper ends -->
+        </div>

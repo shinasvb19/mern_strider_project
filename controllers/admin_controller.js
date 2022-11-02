@@ -1,7 +1,9 @@
 
 const bcrypt = require('bcrypt');
 const Admin = require('../models/adminSchema');
-
+const Checkout = require('../models/checkoutSchema');
+const mongoose = require('mongoose');
+const { findByIdAndUpdate } = require('../models/adminSchema');
 
 const signinPage = (req, res) => {
 
@@ -62,6 +64,57 @@ const sessionCheckDashboard = (req, res, next) => {
     }
 
 }
+const orders =async (req,res)=> {
+    const checkout = await Checkout.aggregate([{$match:{isCompleted:true}}])      
+    res.render('admin/orderManagement',{checkout})
+    
+}
+const  orderView = async (req,res)=>{
+    let {checkoutId}= req.body
+    checkoutId = mongoose.Types.ObjectId(checkoutId);
+     console.log(checkoutId);
+  const checkout = await Checkout.aggregate([{$match:{_id:checkoutId,isCompleted:true}}, 
+     { $unwind: '$cart_item' },
+     {$project:{product_id:'$cart_item.product_id',product_quantity: '$cart_item.product_quantity',
+     product_size:'$cart_item.product_size',paymentStatus:'$paymentStatus',
+     bill:'$bill',orderStatus:'$orderStatus' } },
+     {$lookup: {
+     from: 'products',
+     localField: 'product_id', foreignField: '_id', as: 'products'
+ }}])
+//  console.log(checkout[0].orderStatus);
+ 
+ res.send({checkout})
+ 
+  }
+  const orderEdit = async (req,res) => {
+//    console.log(req.body)
+  let {checkoutId}= req.body
+  let {result}= req.body;
+
+  checkoutId = mongoose.Types.ObjectId(checkoutId);
+//   await Checkout.findByIdAndUpdate{}
+// let delivered ='packed'
+const checkout = await Checkout.findById({_id:checkoutId})
+const id=checkout.orderStatus[0]._id
+  await  Checkout.findOneAndUpdate({ $and: [{_id:checkoutId }, { 'orderStatus._id':id }] }, {$set:{'orderStatus.$.type':result} });
+// console.log('thiss',a);
+
+res.send({checkout})
+  }
+  
+  const address = async (req,res) => {
+    let { checkoutId }= req.body
+    checkoutId = mongoose.Types.ObjectId(checkoutId);
+    const checkout = await Checkout.findById({_id:checkoutId})
+    res.send({checkout})
+
+  }
+  
+exports.address = address;
+exports.orderEdit = orderEdit;
+exports.orderView = orderView;
+exports.orders = orders;
 exports.sessionCheckDashboard = sessionCheckDashboard;
 exports.sessionCheck = sessionCheck;
 exports.product = product;

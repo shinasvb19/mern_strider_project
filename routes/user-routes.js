@@ -11,4 +11,8 @@ router.get('/profile', userController.profile);
 router.put('/profile', userController.profilePut)
 router.get('/profile/address',userController.addressGet)
 router.delete('/address/:id', userController.deleteAddress)
+router.get('/orders',userController.showOrders)
+router.post('/order/cancel',userController.orderCancel)
+router.post('/order/view',userController.orderView)
+
 module.exports = router;

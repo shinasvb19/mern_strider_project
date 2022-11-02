@@ -17,7 +17,9 @@ const showProduct = async (req, res) => {
     const session = req.session.username
     // console.log(uid)
     const product = await Product.findById(uid)
-
+    const banner = await Brand.find().sort({ 
+        createdAt})
+console.log(banner);
 
 
     const subcategoryFind = await Product.aggregate([{

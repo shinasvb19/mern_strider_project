@@ -1,0 +1,161 @@
+<% layout('/layouts/boilerplate') %>
+  <div class="container">
+          <div class="row mt-5">
+                
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                               <thead>
+                                <tr>
+                                    <th>order id</th>
+                                    <th>payment type</th>
+                                    <th>order status</th>
+                                    <th>expected delivery</th>
+                                    <th>amout</th>
+                                    <th>view</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <% checkout.forEach(checkouts => { %>
+                                <tr id="row<%=checkouts._id%>">
+                                       <td>
+                                        <%=checkouts._id%> 
+                                       </td>
+                                       <td>
+                                        <%=checkouts.paymentStatus%> 
+                                       </td>
+                                       <% checkouts.orderStatus.forEach(orderStats => { %>
+                                       <td>
+                                        <%=orderStats.type%> 
+                                       </td>
+                                       <%});%> 
+                                      
+                                       <td>
+                                         <%let deliveryDate =checkouts.expectedDate%>
+                                        <% deliveryDate = deliveryDate.toLocaleDateString(); %> 
+                                      <%=deliveryDate%>
+                                       </td>
+                                       <td>
+                                        <%=checkouts.bill%> 
+                                       </td>
+                                       <td>
+                                        <button class="btn btn-success"   onclick="view('<%=checkouts._id%>')" data-toggle="modal"
+                                          data-target="#exampleModalCenter" >view</button>
+                                      
+                                       </td>
+                                       <td>
+                                        <button type="button" class="close"data-toggle="modal" data-target="#exampleModal" aria-label="close" ><span aria-hidden="true">&times;</span></button>
+                                    </td>
+                                    </tr>
+                                   
+                                    <%});%>          
+                                </tbody>
+                            </table>
+                        </div>
+                </div>   
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">cancel order</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                     do you want to cancel this order?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-danger"   <% checkout.forEach(checkouts => { %> onclick="pop('<%=checkouts._id%>')" <% }) %> data-dismiss="modal">cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                      <!-- modal section started -->
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-l"  role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">orderd products</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive" id="table_main">
+        </div>
+          
+         
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+          
+        </div>
+    </div>
+</div>
+          </div>
+             
+    <script>
+
+      
+        
+   function pop (id) {
+            // let categoryId = category.value;
+            // console.log('clicked')
+   const row = document.getElementById('row'+id)
+          //   console.log(row)
+          // console.log(id)
+     fetch('/users/order/cancel', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        }).then(res => res.json()).then(data => {
+          //  console.log('hello')
+            row.remove()  
+        })
+    };
+    
+    function view(checkoutId){
+     const image = document.getElementById('pro_img')
+     const productName = document.getElementById('product_name')
+     const tableMain = document.getElementById('table_main')
+    
+     console.log(checkoutId)
+      fetch('/users/order/view', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ checkoutId })
+        }).then(res => res.json()).then(data => {
+          console.log(tableMain)
+          // image.innerHTML=''
+          let table = `<table class="table table-striped table-hover"><thead><tr><th>product</th>
+            <th>product name</th>
+            <th>product price</th>
+            <th>quantity</th>
+            </tr><thead><tbody>`
+          data.checkout.forEach(checkouts=>{
+       
+            checkouts.products.forEach(product=>{
+           
+             console.log(product)
+             console.log(product.image[0].url)
+             table+= `<tr><td><div class="mb-3" style="background-image:url(${product.image[0].url}); width:50px;height:50px;background-size:cover;background-repeat:no-repeat "></div></td>
+              <td>${product.product_name}</td>
+              <td>₹${product.price}</td>
+              <td>${checkouts.product_quantity}</td></tr>`
+            //  image.innerHTML += `<div class="mb-3" style="background-image:url(${product.image[0].url}); width:50px;height:50px;background-size:cover;background-repeat:no-repeat "></div>`;
+            //  image.innerHTML +=   `<div>${product.product_name}</div>` 
+            })
+          })
+        // console.log(tableMain)
+        table+=`</tbody></table>`
+         tableMain.innerHTML = table
+            
+        })
+    }
+    </script>
+
+

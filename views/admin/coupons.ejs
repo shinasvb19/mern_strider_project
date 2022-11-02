@@ -199,142 +199,80 @@
                                     <div class="col-md-8 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-
-                                                <h4 class="card-title">PRODUCT</h4>
-                                                <h4 class="text-danger">
-
-                                                </h4>
-
-
-                                                <form action="/products/edit/<%=id._id%>?_method=PUT" method="POST"
-                                                    enctype="multipart/form-data">
-                                                    <label class="mt-2">product name</label>
-                                                    <input type="text" class="form-control mt-2"
-                                                        placeholder="product name" name="product_name"
-                                                        aria-label="product name" value="<%=id.product_name%>"
-                                                        required />
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-
-                                                            <label class="mt-2" for="category">Choose a category</label>
-
-                                                            <select class="form-control mt-2" placeholder="category"
-                                                                name="category_id" id="editcategory_id">plz select
-
-
-
-                                                                <%for(value of categoryPost){%>
-                                                                    <option value="<%=value._id%>"
-                                                                        <%if(subcategoryFind[0].category[0].category==(value.category)){
-                                                                        %> selected
-                                                                        <%}%>>
-                                                                            <%=value.category%>
-                                                                    </option>
-                                                                    <% } %>
-                                                            </select>
-                                                        </div>
-                                                        <div class=" col-md-6 mt-2">
-                                                            <label class="mt-2" for="category">Choose a
-                                                                subcategory</label>
-                                                            <div class="" id="editsubcategory">
-                                                                <select id="subCategoryId" name="subcategory_id"
-                                                                    class="form-control">
-                                                                    <option
-                                                                        value="<%=subcategoryLookup[0].subcategory[0]._id%>">
-                                                                        <%=subcategoryLookup[0].subcategory[0].subcategory%>
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                            <label class="mt-2" for="category">Choose a
-                                                                sub-category</label>
-
-                                                        </div>
-                                                    </div>
-                                                    <label class="mt-2" for="Brand">Choose a brand</label>
-                                                    <select class="form-control mt-2" placeholder="Brand" name="brand"
-                                                        id="brand">
-
-                                                        <% for(value of brandFind){ %>
-
-                                                            <option value="<%=value.id%>"
-                                                                <%if(brandLookup[0].brand[0].brand==(value.brand)){ %>"
-                                                                selected
-                                                                <%}%>>
-                                                                    <%=value.brand%>
-                                                            </option>
-                                                            <% } %>
-                                                    </select>
-                                                    <label class="mt-2">product description</label>
-                                                    <input type="text" class="form-control mt-2"
-                                                        placeholder="product description" name="description"
-                                                        aria-label="product description" value="<%= id.description %>"
-                                                        required />
-                                                    <label class="mt-2">product details</label>
-                                                    <textarea rows="4" columns="2" class="form-control mt-2"
-                                                        placeholder="product details" name="details"
-                                                        aria-label="product details" value="<%=id.details%>"
-                                                        required></textarea>
-
-
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label class="mt-2">small size</label>
-                                                            <input type="text" class="form-control mt-2"
-                                                                placeholder="product stock" name="small_stock"
-                                                                aria-label="product stock" required
-                                                                value="<%= id.product_size.small_stock%>" />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="mt-2">medium size</label>
-                                                            <input type="text" class="form-control mt-2"
-                                                                placeholder="product stock" name="medium_stock"
-                                                                aria-label="product stock"
-                                                                value="<%= id.product_size.medium_stock%>" required />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="mt-2">large size</label>
-                                                            <input type="text" class="form-control mt-2"
-                                                                placeholder="product stock" name="large_stock"
-                                                                aria-label="product stock"
-                                                                value="<%= id.product_size.large_stock%>" required />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="mt-2">price</label>
-                                                            <input type="text" class="form-control mt-2"
-                                                                placeholder="price" name="price" aria-label="price"
-                                                                value="<%= id.price %>" required />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="mt-2">mrp</label>
-                                                            <input type="text" class="form-control mt-2"
-                                                                placeholder="mrp" name="mrp" aria-label="mrp"
-                                                                value="<%= id.mrp %>" required />
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="col-md-12 mt-4">product image</label>
-                                                            <input class="col-md-12 mt-2" type="file" name="image"
-                                                                class="primary" multiple />
-                                                        </div>
-                                                        <div class="mb-3">
-                <% id.image.forEach(function(img, i) {  %>
-                    <div style="background-image:url('<%=img.url %>') ;width: 100px;height: 100px; background-size: cover;"></div>
-                
-                <div class="form-check-inline">
-                    <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
-                </div>
-                <label for="image-<%=i%>">Delete?</label>
-                <% })%>
-            </div>
-                                                    </div>
+                                                <h4 class="card-title">Coupons</h4>
+                                                <form action="/coupon" method="post">
+                                                    <!-- <div class="form-group"> -->
+                                                    <label>coupon name</label>
+                                                    <input type="text" class="form-control" placeholder="coupanName"
+                                                        name="couponName" aria-label="coupanName" required>
+                                                        <label>discount</label>
+                                                        <input type="text" class="form-control" placeholder="discount"
+                                                            name="dicount" aria-label="discount" required>
+                                                            <label>maximum limit</label>
+                                                            <input type="text" class="form-control" placeholder="maximum limit"
+                                                                name="maximumLimit" aria-label="maximum limit" required>
+                                                                <label>valid up to</label>
+                                                                <input type="text" class="form-control" placeholder="in days"
+                                                                    name="expiry" aria-label="in days" required>
+                                                    <!-- </div> -->
                                                     <div class="text-danger">
-
+                                                      
                                                     </div>
                                                     <input type="submit"
                                                         class="btn-blue btn-primary btn-md rounded mt-3 " type="submit">
                                                     </input>
-                                    
+
                                                 </form>
 
+
+                                                <div class="col-lg-12 grid-margin stretch-card">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title"></h4>
+                                                            <p class="card-description">
+                                                                coupons <code>.table</code>
+                                                            </p>
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>NAME</th>
+                                                                            <th>DISCOUNT</th>
+                                                                            <th>EXPIRY DATE</th>
+                                                                            <th>DELETE</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                     
+                                                                            <%couponsFind.forEach(coupons=>{ %> 
+                                                                            <tr>
+                                                                                <td>
+                                                                                 <%=coupons.couponName %> 
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%=coupons.dicount%>%
+                                                                                </td>
+                                                                                <td>
+                                                                                    <%let date = coupons.expiryDate.toLocaleDateString()  %>
+                                                                                    <%= date%> 
+                                                                                </td>
+                                                                                <td>
+                                                                                   
+                                                                                        <button class="btn btn-danger" data-toggle="modal"
+                                                                                        data-target="#exampleModalCenter" onclick="pop('<%=coupons._id%>')" >delete</button>
+                                                                                          
+                                                                                </td>
+                                                                            </tr>
+                                                                       <%  }) %>  
+                                                                          
+                                                                    </tbody>
+                                                                </table>
+                                                             
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -342,6 +280,31 @@
 
                                 </div>
                             </div>
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-l"  role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="table-responsive">
+                                      <h4>do you want to delete this coupon?</h4>  
+                                    </div>
+                                      
+                                     
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="delete">yes</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                                      </div>
                             <!-- content-wrapper ends -->
                             <!-- partial:../admin_files/partials/_footer.html -->
                             <footer class="footer">
@@ -365,35 +328,25 @@
                 </div>
                 <!-- page-body-wrapper ends -->
         </div>
-        <!-- container-scroller -->
+       
+        <!-- <div/</div>
+        -->
+        <!-- co<ntainer-scroller -->
         <!-- plugins:js -->
-        <script>
-            const category = document.getElementById("editcategory_id");
-
-            category.addEventListener("change", function () {
-                let categoryId = category.value;
-
-                const subCategoryField = document.getElementById('editsubcategory');
-                let option = '';
-                fetch('/products/fetch', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ categoryId })
-                }).then(res => res.json()).then(data => {
-                    let subCategory = data.subcategory;
-                    if (subCategory.length > 0) {
-                        option += `<select id="subCategoryId" name="subcategory" class="form-control">`;
-                        subCategory.forEach((eachSubCategory) => {
-                            option += `<option value="${eachSubCategory._id}">${eachSubCategory.subcategory}</option>`;
-                        });
-                        option += `</select>`;
-                        subCategoryField.innerHTML = option;
-                    } else {
-                        subCategoryField.innerHTML = `<select id="subCategoryId" name="subcategory" class="form-control"><option value=" g">Choose..</option></select>`;
-                    }
-
-                })
-            });
-        </script>
-
+        <Script>
+       function pop (id){
+             console.log(id);
+          const change=  document.getElementById('delete').addEventListener('click',(e)=>{
+            console.log('clicked')
+            fetch('/coupon', {
+            method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({id})
+            }).then(res=> res.json()).then(data=>{
+              location.reload()
+              
+            })
+          })
+       }
+        </Script>
         <%- include('../partials/end') %>

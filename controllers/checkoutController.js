@@ -51,13 +51,13 @@ const placeOrder =async (req,res)=>{
     const {bill, paymentStatus,cart_id} =req.body
     const userId = req.session.user_id;
     const status = req.body.paymentStatus==='cod'?true:false
-     const cart = await Cart.findById(cart_id)
+     const cart = await Cart.findById({_id:cart_id})
      console.log('evide pooyi nee',cart);
      const address = {name:req.body.name,email:req.body.email,mobile:req.body.mobile,address_line:req.body.address_line}
     // const address:
     //   console.log(address) 
     const checkout = new Checkout({
-        user_id:userId,
+         userId:userId,
           cart_item: cart.cart_item,
           isCompleted: status,
           address,
@@ -74,6 +74,7 @@ const placeOrder =async (req,res)=>{
         if(paymentStatus==='cod'){
             const cod = true;
             res.send({cod})
+             await Cart.findByIdAndDelete(cart_id)
         }
         else{
             // const order= checkout._id
@@ -107,15 +108,21 @@ const placeOrder =async (req,res)=>{
 }
 }
 const paymentSuccess = async (req,res) => {
+    const userName = req.session.user_id
+ console.log(userName)
     const { response,payDetails,userDetails,orderId } = req.body;
     let hmac = crypto.createHmac('sha256', process.env.key_secret);
     hmac = hmac.update(response.razorpay_order_id + "|" + response.razorpay_payment_id);
     hmac = hmac.digest('hex');
-    // await cartModel.findByIdAndDelete(cartId);
+    
     if(hmac == response.razorpay_signature) {
+        const userId = mongoose.Types.ObjectId(req.session.user_id)
+        
+        const cart = await Cart.findOne({user_id:userId})
+        // console.log(cart)
         const successOrderId = mongoose.Types.ObjectId(payDetails.receipt);
     await Checkout.findByIdAndUpdate(successOrderId,{isCompleted:true});
-
+    await Cart.findByIdAndDelete(cart._id)
         req.flash('orderId',successOrderId);
         res.send({paymentStatus:'success',payDetails});
     }else {
@@ -126,8 +133,10 @@ const paymentSuccess = async (req,res) => {
     const {id} = req.query
     // console.log(id)
  const checkout = await Checkout.findById(id)
- console.log(checkout)
-    res.render('user/paymentSuccess')
+//  console.log(checkout.bill)
+
+ const bill = checkout.bill
+    res.render('user/paymentSuccess',{bill})
    }
 
 

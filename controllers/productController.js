@@ -5,6 +5,11 @@ const { aggregate } = require("../models/productSchema");
 const Product = require("../models/productSchema");
 const Subcategory = require("../models/subCategorySchema");
 const mongoose = require('mongoose');
+const multer = require('multer');
+const { cloudinary } = require('../cloudinary');
+
+const flash = require('connect-flash');
+const upload = multer({ cloudinary });
 
 const productPage = async (req, res) => {
     const brand = await Brand.find({});
@@ -35,7 +40,7 @@ const productPost = async (req, res) => {
     catch (error) {
         console.log(error)
     }
-    console.log(req.body)
+    // console.log(req.body)
     res.redirect('/products');
 }
 const productLookup = async (req, res) => {
@@ -142,9 +147,19 @@ const findUpdate = async (req, res) => {
     product.product_size.medium_stock = medium_stock;
     product.product_size.large_stock = large_stock;
 
-    product.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
-    // product.image.push(...imgs);
+ const image = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    product.image.push(...image);
     await product.save();
+    // console.log(req.body)
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            console.log('leee',filename)
+          await cloudinary.uploader.destroy(filename);
+        }
+        await product.updateOne({
+          $pull: { image: { filename: { $in: req.body.deleteImages } } },
+        });
+      }
     res.redirect('/products/show')
 }
 // const editProductForm = (req, res) => {

@@ -3,10 +3,12 @@ const Admin = require("../models/adminSchema");
 const bcrypt = require('bcrypt');
 const Product = require("../models/productSchema");
 const mongoose = require('mongoose');
-const { findByIdAndUpdate } = require("../models/userSchema");
+const { findByIdAndUpdate, findByIdAndDelete } = require("../models/userSchema");
 const { required } = require("joi");
 const swal = require('sweetalert');
 const Cart = require("../models/cartSchema");
+const { findOne } = require("../models/cartSchema");
+const Checkout = require("../models/checkoutSchema");
 const signupPage = (req, res) => {
 
     res.render('usersignup')
@@ -86,6 +88,55 @@ const addressGet = async (req,res) =>{
     await User.updateOne({id},{$pull:{address:{"_id":addressId}}});
     res.redirect('/users/profile/address')
   } 
+
+  const showOrders = async (req,res)=>{
+    id = req.session.user_id
+ const checkout = await Checkout.aggregate([{$match:{userId:id,isCompleted:true}}])
+
+//  const checkout = await Checkout.aggregate([{$match:{userId:id,isCompleted:true}}, 
+//     { $unwind: '$cart_item' },
+//     {$project:{product_id:'$cart_item.product_id',product_quantity: '$cart_item.product_quantity',
+//     product_size:'$cart_item.product_size',paymentStatus:'$paymentStatus',
+//     bill:'$bill',orderStatus:'$orderStatus' } },
+//     {$lookup: {
+//     from: 'products',
+//     localField: 'product_id', foreignField: '_id', as: 'products'
+// }}])
+//  console.log('lookup result',checkout)
+// console.log(checkout)
+const session =req.session.user_name;
+
+
+    res.render('user/showOrders',{checkout,session})
+  }
+  const orderCancel = async (req,res)=>{
+   const id = mongoose.Types.ObjectId(req.body)
+    // console.log(id);
+    const del = true
+    await Checkout.findByIdAndDelete({_id:id})
+    res.send({del})
+  }
+ const  orderView = async (req,res)=>{
+   let {checkoutId}= req.body
+   checkoutId = mongoose.Types.ObjectId(checkoutId);
+    console.log(checkoutId);
+ const checkout = await Checkout.aggregate([{$match:{_id:checkoutId,isCompleted:true}}, 
+    { $unwind: '$cart_item' },
+    {$project:{product_id:'$cart_item.product_id',product_quantity: '$cart_item.product_quantity',
+    product_size:'$cart_item.product_size',paymentStatus:'$paymentStatus',
+    bill:'$bill',orderStatus:'$orderStatus' } },
+    {$lookup: {
+    from: 'products',
+    localField: 'product_id', foreignField: '_id', as: 'products'
+}}])
+console.log(checkout);
+
+res.send({checkout})
+
+ }
+exports.orderView = orderView;
+exports.orderCancel = orderCancel;
+exports.showOrders = showOrders;
 exports.addressGet = addressGet;   
 exports.deleteAddress = deleteAddress;
 exports.profilePut = profilePut;

@@ -15,12 +15,15 @@ const brandRoutes = require('./routes/brandRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const cartRoutes = require('./routes/cartRoutes')
 const checkoutRoutes = require('./routes/checkoutRoutes')
+const bannerRoutes = require('./routes/bannerRoutes')
+const couponRoutes = require('./routes/couponRoutes')
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
-const ejsMate = require('ejs-mate')
+const ejsMate = require('ejs-mate');
+const { application } = require('express');
 // const multer = require('multer')
 // const upload = multer({ dest: 'uploads/' })
 // const flash = require('connect-flash');
@@ -63,8 +66,12 @@ app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static('files'));
 
+app.use((req,res,next)=>{
+    res.locals.success =req.flash('success')
+    res.locals.error =req.flash('error')
+    next()
+    })  
 
-// app.use(flash());
 
 app.use((req, res, next) => {
     res.setHeader("Access-Contol-Allow-Orgin", "*");
@@ -75,6 +82,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
     next();
 })
+
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('layout', './layouts/layout');
@@ -87,6 +95,8 @@ app.use('/brand', brandRoutes);
 app.use('/cart', cartRoutes);
 app.use('/', dashboardRoutes);
 app.use('/checkout',checkoutRoutes);
+app.use('/banner', bannerRoutes);
+app.use('/coupon',couponRoutes);
 
 
 

@@ -84,6 +84,7 @@ const cartItemDelete = async (req,res) =>{
     let user_id= (req.session.user_id);
     // console.log(productId)
     await Cart.updateOne({user_id},{$pull:{cart_item:{"product_id":productId}}});
+    
 }
 
 exports.cartItemDelete = cartItemDelete; 
