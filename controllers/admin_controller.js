@@ -18,6 +18,7 @@ const signin = async (req, res) => {
         const validPassword = await bcrypt.compare(password, admin.password);
         if (validPassword) {
             req.session.username = admin.username;
+            req.session.adminId = admin._id;
             res.redirect('/admin/dashboard');
         }
         else {
@@ -33,8 +34,29 @@ const signin = async (req, res) => {
 
 }
 
-const adminDashbord = (req, res) => {
-    res.render('admin/admin')
+const adminDashbord =async (req, res) => {
+    const graph = await Checkout.aggregate(
+        [
+           {
+             $group : {
+                _id : { month: { $month: "$createdAt" }, day: { $dayOfMonth: "$createdAt" }, year: { $year: "$createdAt" } },
+                totalPrice: { $sum: '$bill' },
+                count: { $sum: 1 }
+    
+                     }
+    
+                   },{$sort:{_id:-1}},
+                   {$project:{totalPrice:1,_id:0}},{$limit:5}
+                ]
+             );
+             console.log(graph)
+             let values = [];
+             let revenue = []
+             graph.forEach((g)=> {
+                values.push(g.totalPrice)
+                revenue.push(g.totalPrice*10/100)
+             })
+    res.render('admin/admin',{values,revenue})
 }
 
 const product = (req, res) => {
@@ -46,24 +68,7 @@ const logout = (req, res) => {
     res.redirect('/admin/signin')
 }
 
-const sessionCheck = (req, res, next) => {
-    if (req.session.username) {
 
-        res.redirect('/admin/dashboard');
-    } else {
-        next();
-    }
-}
-
-const sessionCheckDashboard = (req, res, next) => {
-    if (req.session.username) {
-        next();
-    }
-    else {
-        res.redirect('/admin/signin')
-    }
-
-}
 const orders =async (req,res)=> {
     const checkout = await Checkout.aggregate([{$match:{isCompleted:true}}])      
     res.render('admin/orderManagement',{checkout})
@@ -110,13 +115,12 @@ res.send({checkout})
     res.send({checkout})
 
   }
+ 
   
 exports.address = address;
 exports.orderEdit = orderEdit;
 exports.orderView = orderView;
 exports.orders = orders;
-exports.sessionCheckDashboard = sessionCheckDashboard;
-exports.sessionCheck = sessionCheck;
 exports.product = product;
 exports.signin = signin;
 exports.signinPage = signinPage;

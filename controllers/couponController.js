@@ -20,25 +20,40 @@ const couponPost = async (req, res) => {
     })
     try {
         await newCoupon.save()
-
-    } catch (error) {
-        req.flash('exists', 'coupon already exists');
+        req.flash('success', 'added successfully');
+    }
+ catch (error) {
+        req.flash('error', 'coupon already exists');
     }
     res.redirect('/coupon');
 
 }
 const deleteCoupon = async (req, res) => {
-console.log(posted);
-}
-exports.deleteCoupon = deleteCoupon;
-const couponCompare = async (req, res) => {
-   let {id}= req.body;
+    let {id}= req.body;
    id= mongoose.Types.ObjectId(id);
    await Coupon.findByIdAndDelete(id)
    req.flash('success','created succesfully')
    res.send({deleted:'true'})
-//    console.log(idi);
-
+// console.log(posted);
+}
+exports.deleteCoupon = deleteCoupon;
+const couponCompare = async (req, res) => {
+   
+ const {couponName}=req.body;
+ const couponFind = await Coupon.find({couponName})
+if (couponFind && couponFind.length > 0) {
+ console.log(couponFind);
+ const dis = couponFind[0].dicount
+ const id = couponFind[0]._id
+//  console.log(dis)
+ res.send({dis,id})
+}
+else{
+//   console.log('nooooooop');
+  req.flash('error', 'coupon not found');
+ 
+res.send({is:false})
+}
 }
 exports.couponCompare = couponCompare;
 exports.coupons = coupons;

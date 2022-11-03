@@ -7,6 +7,7 @@
                 <div class="col-lg-12">
                     <div class="shop__cart__table">
                         <table>
+                            <%- include('../partials/flash') %>
                             <thead>
                                 <tr>
                                     <th>Product</th>
@@ -85,11 +86,14 @@
                 <div class="col-lg-4 offset-lg-2">
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
-                        <ul>
-                            <li>Subtotal <span>₹<%= total %> </span></li>
-                            <li>Total <span>₹<%= total %></span></li>
+                        <% let discount=0 %> 
+                        <%let subtotal= total-discount %> 
+                        <input type="text"hidden id="total" value="<%=total%>">
+                        <ul id="coupon">
+                            <li>Discount <span id="discount">₹</span></li>
+                            <li>Total <span id="subtotal">₹<%=subtotal %></span></li>
                         </ul>
-                        <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                        <button id="checkout" type="button" onclick="discount()"  class="btn btn-danger pl-5 pr-5 rounded-pill"> Proceed  to  checkout </button>
                     </div>
                 </div>
             </div>
@@ -181,20 +185,64 @@
 
     </script>
     <script>
+        
+
+        let id = ' '
+        let discountValue = ' '
+
         document.getElementById('couponBtn').addEventListener('click',(e)=>{
            const couponMain = document.getElementById('coupon')
+           const total = document.getElementById('total')
+          const subtotal = document.getElementById('subtotal')
+           let sub = total.value
+           console.log(sub)
+           const discountId = document.getElementById('discount')
+        //    console.log(object);
            const  couponName = couponMain.value
            fetch('/coupon/compare', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({couponName})
             }).then(res=> res.json()).then(data=>{
-                // console.log(data.cod)
-              
+                //  console.log(data.dis)
+            //   location.reload()
+            let totalA = (sub*data.dis)/100
+            const  check = Number.isInteger(totalA)
+            
+                discountValue= `<large>₹${totalA}</large>`
+                
+             
+            const totalSub   =`<large>₹${sub-totalA}</large>`   
+        //       console.log(check)
+        //    console.log(subtotal)
+          
+            id = data.id
+            if(check==true) {
+           discountId.innerHTML = discountValue
+           subtotal.innerHTML=totalSub 
+            }
+            else {
+                console.log('error')
+            }
+           
+            
             })
         })
-
-        //   const couponCode =document.getElementById('couponValue')
+       function discount(){
+            window.location=('/checkout?_id='+id)
+        }
+        //     const couponCode =document.getElementById('couponValue')
+        
+        // function discount(){
+        // //     let totalAmount= ' '
+        // //    function eventMade(data){
+        // //     const hidden= document.getElementById('input')
+        // //      totalAmount=  data
+        //      console.log('data')
+        //    }
+           
+           
+         
          
       
     </script>

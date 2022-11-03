@@ -177,21 +177,17 @@
         options: areaOptions
       });
     }
+    const datachart =document.getElementById('chartData').value;
     if ($("#sales-chart").length) {
       var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
       var SalesChart = new Chart(SalesChartCanvas, {
         type: 'bar',
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+          labels: ["day 1", "day 2", "day 3", "day 4", "day 5"],
           datasets: [{
               label: 'Offline Sales',
-              data: [480, 230, 470, 210, 330],
+              data: [...datachart],
               backgroundColor: '#98BDFF'
-            },
-            {
-              label: 'Online Sales',
-              data: [400, 340, 550, 480, 170],
-              backgroundColor: '#4B49AC'
             }
           ]
         },
@@ -218,9 +214,9 @@
               ticks: {
                 display: true,
                 min: 0,
-                max: 560,
+                max: 9,
                 callback: function(value, index, values) {
-                  return  value + '$' ;
+                  return  value  ;
                 },
                 autoSkip: true,
                 maxTicksLimit: 10,

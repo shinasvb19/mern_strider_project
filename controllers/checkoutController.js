@@ -8,10 +8,25 @@ const Razorpay = require('razorpay')
 const { findById } = require("../models/cartSchema")
 let instance = new Razorpay({ key_id: process.env.key_id, key_secret:process.env.key_secret })
 const crypto = require('crypto')
+const Coupon = require("../models/couponSchema")
 
 const checkoutPage = async (req,res)=>{
+    let findCoupon = ''
    const session = req.session.username
    let user_id = req.session.user_id
+   let id = req.query
+//    id= mongoose.Types.ObjectId(id);
+//    console.log(id)
+try{
+     findCoupon = await Coupon.findById(id)
+    }
+    catch(err){
+        console.log(' no coupon')
+    }
+    console.log('helleo',findCoupon);
+
+
+
    user_id= mongoose.Types.ObjectId(user_id);
    const user = await User.findById(user_id)
    const cart = await Cart.aggregate([
@@ -33,9 +48,9 @@ const checkoutPage = async (req,res)=>{
         }
     }
 ])
-  console.log(cart)
+//   console.log(cart)
    
-    res.render('user/checkout',{session,user,cart})
+    res.render('user/checkout',{session,user,cart,findCoupon})
 }
 const addAddress = async (req,res)=>{
 const{country,address_line,town,state,post_code,mobile,email} = req.body

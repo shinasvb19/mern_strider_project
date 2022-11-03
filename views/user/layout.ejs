@@ -9,11 +9,10 @@
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="categories__item categories__large__item set-bg"
-                        data-setbg=" ../img/categories/category-1.jpg">
+                        data-setbg="<%=banner[4].imageOne[0].url %>">
                         <div class="categories__text">
-                            <h1 >Women’s fashion</h1>
-                            <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
-                                edolore magna aliquapendisse ultrices gravida.</p>
+                            <h1 ><%=banner[4].bannerOne %></h1>
+                            <p><%=banner[4].desc%></p>
                             <a href="#">Shop now</a>
                         </div>
                     </div>
@@ -21,38 +20,38 @@
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg=" ../img/categories/category-2.jpg">
+                            <div class="categories__item set-bg" data-setbg="<%=banner[3].imageOne[0].url %>">
                                 <div class="categories__text">
-                                    <h4>Men’s fashion</h4>
-                                    <p>358 items</p>
+                                    <h4><%=banner[3].bannerOne %></h4>
+                                    <p><%=banner[3].desc %></p>
                                     <a href="#">Shop now</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg=" ../img/categories/category-3.jpg">
+                            <div class="categories__item set-bg" data-setbg="<%=banner[2].imageOne[0].url %>">
                                 <div class="categories__text">
-                                    <h4>Kid’s fashion</h4>
-                                    <p>273 items</p>
+                                    <h4><%=banner[2].bannerOne %></h4>
+                                    <p><%=banner[2].desc %></p>
                                     <a href="#">Shop now</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg=" ../img/categories/category-4.jpg">
+                            <div class="categories__item set-bg" data-setbg=" <%=banner[1].imageOne[0].url %>">
                                 <div class="categories__text">
-                                    <h4>Cosmetics</h4>
-                                    <p>159 items</p>
+                                    <h4><%=banner[1].bannerOne%></h4>
+                                    <p><%=banner[1].desc %></p>
                                     <a href="#">Shop now</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg=" ../img/categories/category-5.jpg">
+                            <div class="categories__item set-bg" data-setbg=" <%=banner[0].imageOne[0].url %>">
                                 <div class="categories__text">
-                                    <h4>Accessories</h4>
+                                    <!-- <h4>Accessories</h4>
                                     <p>792 items</p>
-                                    <a href="#">Shop now</a>
+                                    <a href="#">Shop now</a> -->
                                 </div>
                             </div>
                         </div>
@@ -340,21 +339,21 @@
                             <h2>Summer 2019</h2>
                             <h5><span>Sale</span> 50%</h5>
                         </div>
-                        <div class="discount__countdown" id="countdown-time">
+                        <div class="discount__countdown" id="countdown-tim">
                             <div class="countdown__item">
-                                <span>22</span>
+                                <span id="days">22</span>
                                 <p>Days</p>
                             </div>
                             <div class="countdown__item">
-                                <span>18</span>
+                                <span id="hours">18</span>
                                 <p>Hour</p>
                             </div>
-                            <div class="countdown__item">
-                                <span>46</span>
+                            <div class="countdown__item" >
+                                <span id="mins" >46</span>
                                 <p>Min</p>
                             </div>
                             <div class="countdown__item">
-                                <span>05</span>
+                                <span id="secs">05</span>
                                 <p>Sec</p>
                             </div>
                         </div>
@@ -459,5 +458,37 @@
         </div>
     </div>
     <!-- Instagram End -->
+    <script>
+		// The data/time we want to countdown to
+		var countDownDate = new Date("Dec 14, 2022 12:59:52").getTime();
 
+		// Run myfunc every second
+		var myfunc = setInterval(function () {
+
+			var now = new Date().getTime();
+			var timeleft = countDownDate - now;
+
+			// Calculating the days, hours, minutes and seconds left
+			var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+			// Result is output to the specific element
+			document.getElementById("days").innerHTML = days 
+			document.getElementById("hours").innerHTML = hours 
+			document.getElementById("mins").innerHTML = minutes 
+			document.getElementById("secs").innerHTML = seconds 
+
+			// Display the message when countdown is over
+			if (timeleft < 0) {
+				clearInterval(myfunc);
+				document.getElementById("days").innerHTML = ""
+				document.getElementById("hours").innerHTML = ""
+				document.getElementById("mins").innerHTML = ""
+				document.getElementById("secs").innerHTML = ""
+				document.getElementById("end").innerHTML = "TIME UP!!";
+			}
+		}, 1000);
+	</script>
     <!-- Footer Section Begin -->

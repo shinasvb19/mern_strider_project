@@ -2,13 +2,16 @@ const Brand = require("../models/brandSchema")
 const Category = require("../models/categorySchema")
 const Product = require("../models/productSchema")
 const mongoose = require('mongoose')
+const Banner = require("../models/bannerSchema")
 
 const dashboard = async (req, res) => {
     const product = await Product.find({})
 
     const session = req.session.username
-
-    res.render('user/layout', { product, session })
+    const banner = await Banner.find().sort({ 
+        createdAt:-1})
+// console.log(banner);
+    res.render('user/layout', { product, session,banner })
 
 }
 const showProduct = async (req, res) => {
@@ -17,9 +20,7 @@ const showProduct = async (req, res) => {
     const session = req.session.username
     // console.log(uid)
     const product = await Product.findById(uid)
-    const banner = await Brand.find().sort({ 
-        createdAt})
-console.log(banner);
+   
 
 
     const subcategoryFind = await Product.aggregate([{

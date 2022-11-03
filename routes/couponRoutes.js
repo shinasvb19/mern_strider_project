@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/',couponController.coupons)
 router.post('/',couponController.couponPost)
 router.post('/compare',couponController.couponCompare)
-router.delete('/',couponController.couponCompare)
+router.delete('/',couponController.deleteCoupon)
 
 
 
