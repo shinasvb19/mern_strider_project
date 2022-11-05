@@ -90,6 +90,38 @@ const productFetch = async (req, res) => {
     // console.log(subcategory)
     res.send({ product });
 }
+const showAllProducts = async (req, res) => {
+ session = req.session.username;
+ const category = await Category.find()
+ const product = await Product.find({})
+
+    res.render('user/totalProduct',{session,product,category})
+}
+const categoryProduct = async (req, res) => {
+    id = req.query
+    
+    const result = await Product.findById({id})
+}
+const women = async (req, res) => {
+    let id = '633d1bdf4043aa24c09dcdfd'
+    session = req.session.username;
+    id = mongoose.Types.ObjectId(id);
+   const product = await Product.find({category_id:id})
+// console.log(womenData)
+ res.render('user/totalProduct',{product,session})
+}
+const men = async (req, res) => {
+    let id = '633e7fc23bf2ed6740bff737'
+    session = req.session.username;
+    id = mongoose.Types.ObjectId(id);
+   const product = await Product.find({category_id:id})
+// console.log(womenData)
+ res.render('user/totalProduct',{product,session})
+}
+exports.men = men;
+exports.women =women;
+exports.categoryProduct = categoryProduct;
+exports.showAllProducts = showAllProducts;
 exports.productFetch = productFetch;
 exports.showProduct = showProduct;
 exports.dashboard = dashboard;

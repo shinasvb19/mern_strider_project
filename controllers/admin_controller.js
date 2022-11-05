@@ -17,7 +17,7 @@ const signin = async (req, res) => {
     if (admin) {
         const validPassword = await bcrypt.compare(password, admin.password);
         if (validPassword) {
-            req.session.username = admin.username;
+            req.session.adminName = admin.username;
             req.session.adminId = admin._id;
             res.redirect('/admin/dashboard');
         }
@@ -49,14 +49,22 @@ const adminDashbord =async (req, res) => {
                    {$project:{totalPrice:1,_id:0}},{$limit:5}
                 ]
              );
-             console.log(graph)
+            //  console.log(graph)
              let values = [];
              let revenue = []
              graph.forEach((g)=> {
                 values.push(g.totalPrice)
                 revenue.push(g.totalPrice*10/100)
-             })
-    res.render('admin/admin',{values,revenue})
+            })
+
+    const shipped= await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'shipped'}]}).count()
+    const delivered = await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'delivered'}]}).count()
+    const packed = await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'packed'}]}).count()
+    const cancelled = await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'canceled'}]}).count()
+    const ordered = await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'ordered'}]}).count()
+    //  console.log('shareef idea',ordered )
+    //  console.log('shareef idea',dailySale )
+    res.render('admin/admin',{values,revenue,shipped,delivered,packed,cancelled,ordered})
 }
 
 const product = (req, res) => {
@@ -77,7 +85,7 @@ const orders =async (req,res)=> {
 const  orderView = async (req,res)=>{
     let {checkoutId}= req.body
     checkoutId = mongoose.Types.ObjectId(checkoutId);
-     console.log(checkoutId);
+    //  console.log(checkoutId);
   const checkout = await Checkout.aggregate([{$match:{_id:checkoutId,isCompleted:true}}, 
      { $unwind: '$cart_item' },
      {$project:{product_id:'$cart_item.product_id',product_quantity: '$cart_item.product_quantity',

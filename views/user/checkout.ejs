@@ -85,9 +85,9 @@
                             </div>
                             <div class="checkout__order__total">
                                 <ul>
-                                    <li> discount  <span>₹<%let discount= (total*findCoupon.dicount)/100%><%const test = Number.isInteger(discount); if(test==true){%> <%=discount%><% } else{%> <%='0'%><% } %> </span> </li>
+                                    <li> discount  <span>₹<%let discount= (total*findCoupon.dicount)/100%><%const test = typeof(discount); if(test=='number'){%> <%=discount%><% } else{%> <%='0'%><% } %> </span> </li>
                                     <li>Total <span>₹<%=total%></span></li>
-                                    <li>Sub total <span>₹<%let subTotal =total-discount%> <%const check = Number.isInteger(subTotal); if(check==true){%> <%=subTotal%><% } else{%> <%=total%><% } %> </span></li>
+                                    <li>Sub total <span>₹<%let subTotal =total-discount%> <%const check = typeof(subTotal); if(check=='number'){%> <%=subTotal%><% } else{%> <%=total%><% } %> </span></li>
                                     <input type="text" name="bill" value="<%=subTotal%>" hidden>
                                 </ul>
                             </div>

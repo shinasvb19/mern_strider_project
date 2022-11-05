@@ -17,6 +17,7 @@ const cartRoutes = require('./routes/cartRoutes')
 const checkoutRoutes = require('./routes/checkoutRoutes')
 const bannerRoutes = require('./routes/bannerRoutes')
 const couponRoutes = require('./routes/couponRoutes')
+const wishlistRoutes = require('./routes/wishlistRoutes')
 const dbconfiq = require('./confiq/dbConfiq');
 const session = require('express-session');
 const path = require('path')
@@ -97,7 +98,7 @@ app.use('/', dashboardRoutes);
 app.use('/checkout',checkoutRoutes);
 app.use('/banner', bannerRoutes);
 app.use('/coupon',couponRoutes);
-
+app.use('/wishlist', wishlistRoutes);
 
 
 // app.get('/', (req, res) => {

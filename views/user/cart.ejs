@@ -204,11 +204,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({couponName})
             }).then(res=> res.json()).then(data=>{
-                //  console.log(data.dis)
+                //   console.log(data.dis)
             //   location.reload()
+           sub =parseInt(sub)
+        //    console.log(type)
             let totalA = (sub*data.dis)/100
-            const  check = Number.isInteger(totalA)
-            
+        //    console.log(typeof(totalA)) 
+            const check =typeof(totalA)
+           
                 discountValue= `<large>₹${totalA}</large>`
                 
              
@@ -217,7 +220,9 @@
         //    console.log(subtotal)
           
             id = data.id
-            if(check==true) {
+            console.log(id)
+          console.log(check)
+            if(check=='number') {
            discountId.innerHTML = discountValue
            subtotal.innerHTML=totalSub 
             }
@@ -231,18 +236,9 @@
        function discount(){
             window.location=('/checkout?_id='+id)
         }
-        //     const couponCode =document.getElementById('couponValue')
-        
-        // function discount(){
-        // //     let totalAmount= ' '
-        // //    function eventMade(data){
-        // //     const hidden= document.getElementById('input')
-        // //      totalAmount=  data
-        //      console.log('data')
-        //    }
-           
+    </script>
+       
            
          
          
       
-    </script>

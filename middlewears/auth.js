@@ -17,3 +17,24 @@ const sessionCheck = (req, res, next) => {
     }
 }
 exports.sessionCheck = sessionCheck;
+
+const sessionCheckUser = (req, res, next) => {
+    if (req.session.user_id) {
+        next();
+    }
+    else {
+        res.redirect('/users/signin')
+    }
+
+}
+exports.sessionCheckUser = sessionCheckUser;
+
+const sessionCheckSign = (req, res, next) => {
+    if (req.session.user_id)  {
+
+        res.redirect('/');
+    } else {
+        next();
+    }
+}
+exports.sessionCheckSign = sessionCheckSign;
