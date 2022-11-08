@@ -11,36 +11,34 @@
                             <thead>
                                 <tr>
                                     <th>Product</th>
-                                    <th>Brand</th>
-                                    <th>Category</th>
+                                   
                                     <th>Price</th>
+                                   
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
-                                        <tr>
+                               <%product.forEach(products=>{%> 
+                                        <tr id="delete<%=products._id%>">
                                             <td class="cart__product__item">
-                                                <img src="" alt="" height="120" width="120">
+                                                <img src="<%= products.image[0].url%>" alt="" height="120" width="120">
                                                 <div class="cart__product__item__title">
                                                     <h6>
-                                                      
-                                                       
+                                                        <a href="/details/<%=products._id%>" style="color:black;">
+                                                      <%=products.product_name%>
+                                                    </a>     
                                                     </h6>
                                                   <P>
                                                     
                                                   </P>
                                                 </div>
                                             </td>
-                                            <td class="cart__price">
-                                                
-                                            </td>
-                                            <td class="cart__total"></td>
-                                            <td class="cart__close"><button  class="icon_close" style="border:none;background:none"></button></td>
+                                            
+                                            <td class="cart__total"> ₹<%=products.price%></td>
+                                            
+                                            <td class="cart__close"><button  class="icon_close" style="border:none;background:none" onclick="wishlistDelete('<%=products._id%>')"></button></td>
                                         </tr>
-                                        <div id="sum">
-
-                                        </div>
+                                        <% }) %> 
                                        
                             </tbody>
                         </table>
@@ -48,12 +46,12 @@
                 </div>
             </div>
             <script>
-               function wishlistDelete(event, id) {
-                event.preventDefault()
-                let product = document.getElementById("delete" + id)
+               function wishlistDelete(id) {
+               
+                let product = document.getElementById("delete"+id)
                 console.log(product);
                 console.log(id);
-                fetch("/wishlistDelete", {
+                fetch("/wishlist/wishlistDelete", {
                     method: "post",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })

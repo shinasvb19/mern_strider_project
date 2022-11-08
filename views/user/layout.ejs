@@ -165,15 +165,18 @@
             <div class="row">
                 <div class="col-lg-6 p-0">
                     <div class="discount__pic">
-                        <img src=" ../img/discount.jpg" alt="">
+                        
+                        <div style="background-image:url(<%=discount[0].imageOne[0].url%>);height:390px; background-size: cover;";></background-size>>sasas </div>
                     </div>
                 </div>
                 <div class="col-lg-6 p-0">
                     <div class="discount__text">
                         <div class="discount__text__title">
                             <span>Discount</span>
-                            <h2>Summer 2019</h2>
-                            <h5><span>Sale</span> 50%</h5>
+                            <h2><%=discount[0].name%></h2>
+                            <h5><span>use:</span><%=discount[0].couponName%></h5>
+                            <h5><span>to get</span><%=discount[0].discount%>%</h5>
+                            <input id="expiry" type="text"value="<%=date%>" hidden>
                         </div>
                         <div class="discount__countdown" id="countdown-tim">
                             <div class="countdown__item">
@@ -239,76 +242,25 @@
     <!-- Services Section End -->
 
     <!-- Instagram Begin -->
-    <div class="instagram">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-1.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-2.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-3.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-4.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-5.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                    <div class="instagram__item set-bg" data-setbg=" ../img/instagram/insta-6.jpg">
-                        <div class="instagram__text">
-                            <i class="fa fa-instagram"></i>
-                            <a href="#">@ ashion_shop</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Instagram End -->
     <script>
+        const expiry = document.getElementById('expiry').value
+        // console.log(expiry)
 		// The data/time we want to countdown to
-		var countDownDate = new Date("Dec 14, 2022 12:59:52").getTime();
+		let countDownDate = new Date(expiry).getTime();
 
 		// Run myfunc every second
-		var myfunc = setInterval(function () {
+		let myfunc = setInterval(function () {
 
-			var now = new Date().getTime();
-			var timeleft = countDownDate - now;
+			let now = new Date().getTime();
+			let timeleft = countDownDate - now;
 
 			// Calculating the days, hours, minutes and seconds left
-			var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-			var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-			var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+			let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+			let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+			let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
 			// Result is output to the specific element
 			document.getElementById("days").innerHTML = days 
@@ -328,3 +280,19 @@
 		}, 1000);
 	</script>
     <!-- Footer Section Begin -->
+    <script>
+
+        function invoke(id){
+           console.log('hello')
+               // event.preventDefault()
+               console.log(id);
+               fetch("/wishlist/add", {
+                   method: "POST",
+                   headers: { 'Content-Type': 'application/json' },
+                   body: JSON.stringify({ id })
+               }).then(res => res.json()).then(data => {
+                   console.log("set anu");
+                   
+               })
+         }           
+</script>

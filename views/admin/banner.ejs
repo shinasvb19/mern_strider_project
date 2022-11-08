@@ -55,16 +55,70 @@
                                                 </form>
                                                 </div>
                                                 
-                                                
-                                                
-                                                
-                                               
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
+                                <div class="content-wrapper">
+                                    <div class="row">
+                                        <div class="col-md-1">
+    
+                                        </div>
+                                        <div class="col-md-8 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+    
+                                                    <h4 class="card-title">Discount copuon banner</h4>
+                                                    <h4 class="text-danger">
+                                                       
+                                                    </h4>
+    
+                                                    <%- include('../partials/flash') %>
+                                                    <form action="/banner/coupon" enctype="multipart/form-data" method="POST">
+                                                        <label class="mt-2">Discount copuon banner</label>
+                                                        <div class="row">
+    
+                                                            <div class="col-md-12">
+                                                                
+                                                                <input type="text" class="form-control mt-2"
+                                                                 placeholder="coupon name" name="name"
+                                                                aria-label="main banner" required />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                
+                                                                <input type="text" class="form-control mt-2"
+                                                                placeholder="description" name="couponName"
+                                                                aria-label="description" required />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                
+                                                                <input type="text" class="form-control mt-2"
+                                                                placeholder="discount amount" name="discount"
+                                                                aria-label="description" required />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                
+                                                                <input type="text" class="form-control mt-2"
+                                                                placeholder="coupon expiry date" name="expiry"
+                                                                aria-label="description" required />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <label class="col-md-12 mt-4">coupon banner</label>
+                                                                <input class="col-md-12 mt-2" type="file" name="imageOne"
+                                                                class="primary" />  
+                                                        </div>
+                                                        <div class="col-md-4 mt-5">
+                                                        <button type="submit" class="btn btn-primary">submit</button>
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
+                            
                             <!-- content-wrapper ends -->
                             <!-- partial:../admin_files/partials/_footer.html -->
                             <footer class="footer">
@@ -73,13 +127,13 @@
                                         class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright
                                         ©
                                         2021.
-                                        Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin
-                                            template</a> from BootstrapDash. All rights reserved.</span>
+                                        Premium <a href="" target="_blank">Strider
+                                            </a> from shinasvb. All rights reserved.</span>
                                     <span
                                         class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted
                                         &
                                         made
-                                        with <i class="ti-heart text-danger ml-1"></i></span>
+                                        with shinas</span>
                                 </div>
                             </footer>
                             <!-- partial -->

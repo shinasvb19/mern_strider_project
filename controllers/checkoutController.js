@@ -11,7 +11,7 @@ const crypto = require('crypto')
 const Coupon = require("../models/couponSchema")
 
 const checkoutPage = async (req,res)=>{
-    let findCoupon = ''
+    let findCoupon = 'nil'
    const session = req.session.username
    let user_id = req.session.user_id
    let id = req.query
@@ -19,6 +19,8 @@ const checkoutPage = async (req,res)=>{
 //    console.log(id)
 try{
      findCoupon = await Coupon.findById(id)
+     console.log(findCoupon);
+
     }
     catch(err){
         console.log(' no coupon')
@@ -49,7 +51,7 @@ try{
     }
 ])
 //   console.log(cart)
-   
+   console.log('coupon:',findCoupon);
     res.render('user/checkout',{session,user,cart,findCoupon})
 }
 const addAddress = async (req,res)=>{

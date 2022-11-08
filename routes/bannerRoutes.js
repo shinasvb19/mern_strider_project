@@ -6,7 +6,7 @@ const upload = multer({ storage });
 const router = express.Router();
 router.get('/', bannerController.getBanner);
 router.post('/',upload.array('imageOne'), bannerController.bannerPost);
-
+router.post('/coupon',upload.array('imageOne'), bannerController.couponBanner);
 
 
 

@@ -208,14 +208,23 @@
             //   location.reload()
            sub =parseInt(sub)
         //    console.log(type)
-            let totalA = (sub*data.dis)/100
+        let subTotal = ''
+        let totalA = (sub*data.dis)/100
+        let check =typeof(data.dis)
+        console.log('sas',check)
+          if(totalA> data.maximumLimit){
+              subTotal = data.maximumLimit
+          }
+          else{
+            subTotal = totalA
+          }
         //    console.log(typeof(totalA)) 
-            const check =typeof(totalA)
+            
            
-                discountValue= `<large>₹${totalA}</large>`
+                discountValue= `<large>₹${subTotal}</large>`
                 
              
-            const totalSub   =`<large>₹${sub-totalA}</large>`   
+            const totalSub   =`<large>₹${sub-subTotal}</large>`   
         //       console.log(check)
         //    console.log(subtotal)
           

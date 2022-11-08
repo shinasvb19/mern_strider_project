@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-xl-3 col-lg-2">
                 <div class="header__logo">
-                    <a href="./index.html"><img src=" ../img/logo.png" alt=""></a>
+                    <a style="font-family: 'Pacifico', cursive; font-size:25px ;color:black">Strider</a>
                 </div>
             </div>
             <div class="col-xl-6 col-lg-7">
@@ -47,7 +47,7 @@
                                 <li><a href="/users/profile">profile</a></li>
                                 <li><a href="/users/profile/address">address</a></li>
                                 <li><a href="/users/orders">my orders</a></li>
-                                <li><a href="./shop-cart.html">logout</a></li>
+                                <li><a href="/users/logout">logout</a></li>
                                 
     
                         </li>
@@ -57,21 +57,20 @@
             </div>
             <div class="col-lg-3">
 
-                <% if(session) {%>
+                 <%  if(session.user_id){%> 
                     <div class="header__right">
                         <div class="header__right__auth">
-                            <a href="#">
-                                <%=session%>
-                            </a>
-                            <a href="#">logout</a>
-                        </div>
-                        <% } else{%>
+                            <a href="/users/signin">Loged in</a>
+                            
+                        </div> 
+                            
+                        <% }else{ %> 
                             <div class="header__right">
                                 <div class="header__right__auth">
                                     <a href="/users/signin">Login</a>
                                     <a href="/users/signup">Register</a>
                                 </div>
-                                <% } %>
+                                     <% } %> 
                                     <ul class=" header__right__widget">
                                         <li><span class="icon_search search-switch"></span></li>
                                         <li><a href="#"><span class="icon_heart_alt"></span>

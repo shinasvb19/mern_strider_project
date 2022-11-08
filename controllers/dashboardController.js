@@ -3,21 +3,27 @@ const Category = require("../models/categorySchema")
 const Product = require("../models/productSchema")
 const mongoose = require('mongoose')
 const Banner = require("../models/bannerSchema")
+const Discount = require("../models/discountBannerSechema")
 
 const dashboard = async (req, res) => {
     const product = await Product.find({})
 
-    const session = req.session.username
+    const session = req.session
     const banner = await Banner.find().sort({ 
         createdAt:-1})
-// console.log(banner);
-    res.render('user/layout', { product, session,banner })
+        const discount = await Discount.find().sort({ 
+            createdAt:-1})
+            let date = new Date
+            date.setDate(date.getDate(discount[0].createdAt) + discount[0].expiry);  
+            date = date.toLocaleDateString()
+            // console.log(date)
+    res.render('user/layout', { product, session,banner,discount,date })
 
 }
 const showProduct = async (req, res) => {
     let { uid } = req.params;
     uid = mongoose.Types.ObjectId(uid);
-    const session = req.session.username
+    const session = req.session
     // console.log(uid)
     const product = await Product.findById(uid)
    
@@ -91,7 +97,7 @@ const productFetch = async (req, res) => {
     res.send({ product });
 }
 const showAllProducts = async (req, res) => {
- session = req.session.username;
+    const session = req.session
  const category = await Category.find()
  const product = await Product.find({})
 
@@ -104,7 +110,7 @@ const categoryProduct = async (req, res) => {
 }
 const women = async (req, res) => {
     let id = '633d1bdf4043aa24c09dcdfd'
-    session = req.session.username;
+    session = req.session;
     id = mongoose.Types.ObjectId(id);
    const product = await Product.find({category_id:id})
 // console.log(womenData)
@@ -112,7 +118,7 @@ const women = async (req, res) => {
 }
 const men = async (req, res) => {
     let id = '633e7fc23bf2ed6740bff737'
-    session = req.session.username;
+    session = req.session;
     id = mongoose.Types.ObjectId(id);
    const product = await Product.find({category_id:id})
 // console.log(womenData)

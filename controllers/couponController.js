@@ -38,15 +38,16 @@ const deleteCoupon = async (req, res) => {
 }
 exports.deleteCoupon = deleteCoupon;
 const couponCompare = async (req, res) => {
-   
+   let dis = '' 
  const {couponName}=req.body;
  const couponFind = await Coupon.find({couponName})
 if (couponFind && couponFind.length > 0) {
  console.log(couponFind);
- const dis = couponFind[0].dicount
+  dis = couponFind[0].dicount
  const id = couponFind[0]._id
+ const maximumLimit = couponFind[0].maximumLimit
 //  console.log(dis)
- res.send({dis,id})
+ res.send({dis,id,maximumLimit})
 }
 else{
 //   console.log('nooooooop');

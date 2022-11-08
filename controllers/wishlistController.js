@@ -51,9 +51,9 @@ const wishlistView=async(req,res)=>{
   let name="";
   let userId =  '';
   let isproduct=true;
-  if(req.session.NameOfUser)
+  if(req.session.user_id)
   {
-      name=req.session.NameOfUser;
+      name=req.session.username;
       // console.log(name)
        userId = req.session.user_id;
       userId = mongoose.Types.ObjectId(userId);
@@ -61,14 +61,14 @@ const wishlistView=async(req,res)=>{
   }
   
   let product=await Wishlist.aggregate([
-    {$match:{userId}}
+    {$match:{userId}},
     
-      // {$lookup:{
-      //   from:"products",
-      //   localField:"products",
-      //   foreignField:"_id",
-      //   as:"products"
-  //  }}
+      {$lookup:{
+        from:"products",
+        localField:"products",
+        foreignField:"_id",
+        as:"products"
+   }}
        
   ]);
   if(product[0]){
@@ -78,26 +78,27 @@ const wishlistView=async(req,res)=>{
 
   }
   console.log("product ",product);
-  res.render("./user/wishlist",{product,name,isproduct})
+  res.render("user/wishlist",{product,name,isproduct})
 }
 exports.wishlistView=wishlistView;
 
 const wishlistDelete = async(req,res)=>{
-//   let login = false;
-//   let name=""
-//   let {id} =req.body;
-//   if(req.session.NameOfUser)
-//   {
-//       name=req.session.NameOfUser;
-//       // console.log(name)
-//       let userid = req.session.username;
-//       userId = mongoose.Types.ObjectId(userid);
+  let login = false;
+  let name=""
+  let {id} =req.body;
+ console.log(id);
+  if(req.session.user_id)
+  {
+      name=req.session.username;
+      // console.log(name)
+      let userId = req.session.user_id;
+      userId = mongoose.Types.ObjectId(userId);
       
-//   }
-
-//   await Wishlist.updateOne({ userId },{ $pull:{products:id}  });
   
-//   res.send({hai:"set"})
 
+  await Wishlist.updateOne({ userId },{ $pull:{products:id}});
+  
+  res.send({hai:"set"})
+  }
 }
 exports.wishlistDelete=wishlistDelete;

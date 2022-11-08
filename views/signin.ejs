@@ -1,67 +1,51 @@
-<%- include('./partials/head') %>
+    
+    <%- include('./partials/head') %>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+                  
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="img" style="background-image: url(../userLogin/img/shoe.jpg);">
+			      </div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-1" style="font-family: 'Kolker Brush', cursive;font-size:64px;">Strider</h3>
+			      		</div>
+								
+			      	</div>
+							<form action="/users/signin" method="post" class="signin-form">
+			      		<div class="form-group mb-3">
+			      			<label class="label" for="name">Username</label>
+			      			<input type="text" class="form-control" placeholder="Username" name="username" required>
+			      		</div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password">Password</label>
+		              <input type="password" class="form-control" placeholder="Password" name="password" required>
+		            </div>
+		            <div class="form-group">
+		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+		            </div>
+		           
+		          </form>
+		          <p class="text-center">Not a member? <a data-toggle="tab" href="/users/signup">Sign Up</a></p>
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-    <!-- Section: Design Block -->
-    <section class="text-center text-lg-start">
-        <style>
-            .cascading-right {
-                margin-right: -50px;
-            }
-
-            @media (max-width: 991.98px) {
-                .cascading-right {
-                    margin-right: 0;
-                }
-            }
-        </style>
-
-        <!-- Jumbotron -->
-        <div class="container py-4">
-            <div class="row g-0 align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="card cascading-right" style="
-              background: hsla(0, 0%, 100%, 0.55);
-              backdrop-filter: blur(30px);
-              ">
-                        <div class="card-body p-5 shadow-5 text-center">
-                            <h2 class="fw-bold mb-5">Sign in</h2>
-                            <form action="/users/signin" method="post">
-                                <!-- Email input -->
-                                <div class="form-outline mb-4">
-                                    <input type="text" id="form3Example3" class="form-control" name="username" />
-                                    <label class="form-label" for="form3Example3">username</label>
-                                </div>
-
-                                <!-- Password input -->
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="form3Example4" class="form-control" name="password" />
-                                    <label class="form-label" for="form3Example4">Password</label>
-                                </div>
-                                <!-- <div class="text-danger">
-                                   
-                                </div> -->
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-block mb-4">
-                                    Sign in
-                                </button>
-
-                                <!-- Register buttons -->
-                                <div class="text-center">
-
-                                    <a href="/users/signup" class="btn">Not having a account?<h3> Signup</h3></a>
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
 
 
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class=" col-lg-6 mb-5 mb-lg-0">
-                    <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
-                        class="w-100 rounded-4 shadow-4" alt="" />
-                </div>
-            </div>
-        </div>
-        <!-- Jumbotron -->
-    </section>
     <%- include('./partials/footer') %>
+

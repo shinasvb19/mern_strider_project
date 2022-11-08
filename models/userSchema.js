@@ -40,6 +40,12 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    isVerified: {
+        type: Boolean,
+        required: true,
+        trim: true,
+        default:false
+    },
     user_type: {
         type: String,
         trim: true

@@ -3,19 +3,21 @@ const Admin = require("../models/adminSchema");
 const bcrypt = require('bcrypt');
 const Product = require("../models/productSchema");
 const mongoose = require('mongoose');
-const { findByIdAndUpdate, findByIdAndDelete } = require("../models/userSchema");
+const { findByIdAndUpdate, findByIdAndDelete, countDocuments } = require("../models/userSchema");
 const { required } = require("joi");
 const swal = require('sweetalert');
 const Cart = require("../models/cartSchema");
 const { findOne } = require("../models/cartSchema");
 const Checkout = require("../models/checkoutSchema");
+const twilio = require('twilio');
+const client = require('twilio')('AC1cb03b4848113ccde7f459d0df0df690', '21d29544528451e184aa6540657fd451');
 const signupPage = (req, res) => {
 
     res.render('usersignup')
 }
 const signup = async (req, res) => {
     const { username, firstName, lastName, mobile, email, password, user_type } = req.body;
-
+    const isVerified = false;
     const hash = await bcrypt.hash(password, 12);
     const user = new User({
         username,
@@ -24,15 +26,18 @@ const signup = async (req, res) => {
         mobile,
         email,
         user_type,
-        password: hash
+        password: hash,
+        isVerified
     })
     try {
         await user.save()
-
     } catch (error) {
         console.log(error)
+        req.flash('error', 'valdation error');
+        
+        // res.redirect('/users/signup')
     }
-    res.redirect('/users/signin');
+    res.redirect('/users/otp?channel=sms&phonenumber=+91'+mobile);
 }
 
 const signinPage = (req, res) => {
@@ -83,7 +88,6 @@ const addressGet = async (req,res) =>{
 }
   const deleteAddress = async (req,res)=>{
     const id = req.session.user_id
-
     const addressId = req.params.id
     await User.updateOne({id},{$pull:{address:{"_id":addressId}}});
     res.redirect('/users/profile/address')
@@ -104,7 +108,7 @@ const addressGet = async (req,res) =>{
 // }}])
 //  console.log('lookup result',checkout)
 // console.log(checkout)
-const session =req.session.user_name;
+const session =req.session.user_id;
 
 
     res.render('user/showOrders',{checkout,session})
@@ -134,6 +138,49 @@ console.log(checkout);
 res.send({checkout})
 
  }
+ const logout = (req, res) => {
+  
+    req.session.destroy();
+    res.redirect('/users/signin')
+}
+const otpPage = (req, res) => {
+  let number = req.query.phonenumber.trim()
+    client
+    .verify
+    .services('VA33539b4abec282bae0fe1d9e733f86c6')
+    .verifications
+    .create({
+        to:`+${number}`,
+        channel: req.query.channel
+    }).then((data)=>{
+        res.status(200).res.send(data)
+    })
+const mobile =number;
+    console.log(mobile);
+ res.render('user/otp',{mobile})
+}
+const otpPost =async (req, res) => {
+    let mobileNo = req.body.mobile
+    mobileNo = mobileNo.toString()
+   mobileNo = mobileNo.slice(2)
+   mobileNo = Number(mobileNo)
+  console.log(req.body.mobile);
+    client 
+    .verify.services('VA33539b4abec282bae0fe1d9e733f86c6')
+    .verificationChecks
+ 
+    .create({
+        to: `+${req.body.mobile}`,
+        code:req.body.otp
+    
+}).then(async(data)=>{
+  await User.updateOne({mobile:mobileNo},{$set:{isVerified:true}})
+  res.redirect('/users/signin') 
+})
+}
+exports.otpPost = otpPost;
+exports.otpPage = otpPage;
+exports.logout= logout;
 exports.orderView = orderView;
 exports.orderCancel = orderCancel;
 exports.showOrders = showOrders;

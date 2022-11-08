@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+<section class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-6 text-center mb-5">
+			  
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-12 col-lg-10">
+				<div class="wrap d-md-flex">
+					<div class="img" style="background-image: url(../userLogin/img/shoe.jpg);">
+			  </div>
+					<div class="login-wrap p-4 p-md-5">
+				  <div class="d-flex">
+					  <div class="w-100">
+						  <h3 class="mb-1">Verify otp</h3>
+					  </div>
+							
+				  </div>
+						<form action="/users/otp" method="post" class="signin-form">
+					  <div class="form-group mb-3">
+						  <label class="label" for="name">OTP</label>
+						  <input type="text" class="form-control" placeholder="Otp" name="otp" required>
+						  <input type="text" class="form-control" name="mobile" value="<%=mobile%>" hidden> 
+						  
+					  </div>
+				
+				<div class="form-group">
+					<button type="submit" class="form-control btn btn-primary rounded submit px-3">Verify</button>
+				</div>
+			   
+			  </form>
+			 
+			</div>
+		  </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+
+    <%- include('../partials/footer') %>
+
