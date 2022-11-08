@@ -9,8 +9,11 @@ const swal = require('sweetalert');
 const Cart = require("../models/cartSchema");
 const { findOne } = require("../models/cartSchema");
 const Checkout = require("../models/checkoutSchema");
+const accountSid = process.env.TWILIO_ACCOUNT_SID; 
+const authToken = process.env.TWILIO_AUTH_TOKEN;  
+const  authSecret = process.env.TWILIO_AUTH_SECRET;
 const twilio = require('twilio');
-const client = require('twilio')('AC1cb03b4848113ccde7f459d0df0df690', '21d29544528451e184aa6540657fd451');
+const client = require('twilio')(accountSid,authToken);
 const signupPage = (req, res) => {
 
     res.render('usersignup')
@@ -65,8 +68,7 @@ const profile = async (req,res)=>{
     let sessionId= req.session.user_id
 //    sessionId = mongoose.Types.ObjectId(sessionId);
    const userDetails = await User.findById(sessionId)
- 
-    res.render('user/userProfile',{session,userDetails})
+  res.render('user/userProfile',{session,userDetails})
 }
 const profilePut = async (req,res)=>{
      const id = req.session.user_id
@@ -147,7 +149,7 @@ const otpPage = (req, res) => {
   let number = req.query.phonenumber.trim()
     client
     .verify
-    .services('VA33539b4abec282bae0fe1d9e733f86c6')
+    .services(authSecret)
     .verifications
     .create({
         to:`+${number}`,
@@ -166,7 +168,7 @@ const otpPost =async (req, res) => {
    mobileNo = Number(mobileNo)
   console.log(req.body.mobile);
     client 
-    .verify.services('VA33539b4abec282bae0fe1d9e733f86c6')
+    .verify.services(authSecret)
     .verificationChecks
  
     .create({
