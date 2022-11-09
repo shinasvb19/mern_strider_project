@@ -9,7 +9,9 @@ const subcategory = async (req, res) => {
         }
 
     }]
+   
     );
+    // console.log(subcategorys[0].category[0]);
     const categorys = await Category.find({});
     res.render('admin/subCategory', { message: req.flash('exists'), subcategorys, categorys });
 }

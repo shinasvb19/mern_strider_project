@@ -22,6 +22,7 @@ const signin = async (req, res) => {
     if (username==userName&&password==passwordNew) {
       req.session.adminName = userName;
       req.session.adminId = passwordNew;
+    
       res.redirect('/admin/dashboard');
     }
     else{

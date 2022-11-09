@@ -253,10 +253,12 @@
                                                                                 <td>
                                                                                     <%= value.subcategory %>
                                                                                 </td>
+                                                                                <% value.category.forEach(values=>{ %> 
                                                                                 <td>
-                                                                                    <%= value.category[0].category %>
+                                                                                    <%= values.category %>
 
                                                                                 </td>
+                                                                                <%})%>
                                                                                 <td>
                                                                                     <form method="post"
                                                                                         action="/subcategorys/<%= value._id%>?_method=delete">
