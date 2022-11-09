@@ -12,10 +12,16 @@ const signinPage = (req, res) => {
 }
 
 const signin = async (req, res) => {
-    const { username, password } = req.body;
-    let userName = 'shinasvb'
-    let passwordNew ='ab'
+    let { username, password } = req.body;
+    username= username.toString();
+    password = password.toString();
+    console.log(req.body);
+   const userName = 'shinasvb'
+    const passwordNew ='ab'
+    console.log(userName);
     if (username==userName&&password==passwordNew) {
+      req.session.adminName = userName;
+      req.session.adminId = passwordNew;
       res.redirect('/admin/dashboard');
     }
     else{
