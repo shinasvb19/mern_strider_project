@@ -5,22 +5,22 @@ const Schema = mongoose.Schema,
 const discountBannerSchema = mongoose.Schema({
 name: {
     type: String,
-    unique: true,
+   
     trim: true
 },
 couponName: {
     type: String,
-    unique: true,
+   
     trim: true
 },
 discount: {
     type: Number,
-    unique: true,
+   
     trim: true
 },
 expiry: {
     type: Number,
-    unique: true,
+  
     trim: true
 },
 imageOne: [

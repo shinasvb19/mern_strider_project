@@ -25,10 +25,10 @@ res.redirect('/banner')
 
 
 const couponBanner= async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const obj = JSON.parse(JSON.stringify(req.body));
 // const bannerOne = obj;
-
+console.log(obj);
 const couponBanner = new Discount(obj); 
 couponBanner.imageOne = req.files.map(f => ({ url: f.path, filename: f.filename }))
 try{
@@ -36,7 +36,8 @@ try{
     req.flash('success','new banner successfully added')
 }
 catch(error){
-    req.flash('error','something went wrong')
+    // req.flash('error','something went wrong')
+    console.log(error)
 }
 
 res.redirect('/banner')
