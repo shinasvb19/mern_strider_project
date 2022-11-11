@@ -19,42 +19,42 @@
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="checkout__form__input">
                                 <p>Last Name <span>*</span></p>
-                                <input type="text" value="<% const lastname= userDetails ? userDetails.lastName: ' ' %> <%= lastname %>" name="lastName">
+                                <input type="text" value="<% let lastname= userDetails ? userDetails.lastName: ' ' %> <%= lastname %>" name="lastName">
                             </div>
                         </div>
                         <div class="col-lg-8">
                             <div class="checkout__form__input">
                                 <p>Country <span>*</span></p>
-                                <input type="text" value="<% const country= userDetails ? userDetails.address[0].country: ' ' %> <%=country%>" name="country">
+                                <input type="text" value="<% let country= userDetails ? (userDetails.address.length > 0 ? userDetails.address[0].country:' '): ' ' %> <%=country%>" name="country">
                             </div> 
                             <div class="checkout__form__input">
                                 <p>Address <span>*</span></p>
-                                <input type="text" placeholder="Street Address" value="<% const address= userDetails ? userDetails.address[0].address_line: ' ' %> <%=address%>" name="address_line">
+                                <input type="text" placeholder="Street Address" value="<% let address= userDetails ? (userDetails.address.length > 0 ? userDetails.address[0].address_line:' '): ' ' %> <%=address%>" name="address_line">
                               
                             </div>
                             <div class="checkout__form__input">
                                 <p>Town/City <span>*</span></p>
-                                <input type="text" value="<% const town= userDetails ? userDetails.address[0].town: ' ' %> <%=town%>" name="town">
+                                <input type="text" value="<% let town= userDetails ? (userDetails.address.length > 0 ? userDetails.address[0].town:' '): ' ' %> <%=town%>" name="town">
                             </div>
                             <div class="checkout__form__input">
                                 <p>State <span>*</span></p>
-                                <input type="text" value="<% const state= userDetails ? userDetails.address[0].state: ' ' %> <%=state%>" name="state">
+                                <input type="text" value="<% let state= userDetails ? (userDetails.address.length > 0 ? userDetails.address[0].state:' '): ' ' %> <%=state%>" name="state">
                             </div>
                             <div class="checkout__form__input">
                                 <p>Postcode/Zip <span>*</span></p>
-                                <input type="text" value="<% const post= userDetails ? userDetails.address[0].post_code: ' ' %> <%=post%>" name="post_code" >
+                                <input type="text" value="<% let post= userDetails ? (userDetails.address.length > 0 ? userDetails.address[0].post_code:' '): ' ' %> <%=post%>" name="post_code" >
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="checkout__form__input">
                                 <p>Phone <span>*</span></p>
-                                <input type="text" value="<% const phone= userDetails ? userDetails.mobile: ' ' %> <%=phone%>" name="mobile">
+                                <input type="text" value="<% let phone= userDetails ? userDetails.mobile: ' ' %> <%=phone%>" name="mobile">
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="checkout__form__input">
                                 <p>Email <span>*</span></p>
-                                <input type="text" value="<% const email= userDetails ? userDetails.email: ' ' %> <%=email%>" name="email">
+                                <input type="text" value="<% let email= userDetails ? userDetails.email: ' ' %> <%=email%>" name="email">
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">

@@ -68,6 +68,7 @@ const profile = async (req,res)=>{
     let sessionId= req.session.user_id
 //    sessionId = mongoose.Types.ObjectId(sessionId);
    const userDetails = await User.findById(sessionId)
+//    console.log(userDetails);
   res.render('user/userProfile',{session,userDetails})
 }
 const profilePut = async (req,res)=>{

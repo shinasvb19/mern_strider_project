@@ -48,6 +48,7 @@ const wishlistAdd=async(req,res)=>{
 exports.wishlistAdd=wishlistAdd
 
 const wishlistView=async(req,res)=>{
+  session = req.session.username
   let name="";
   let userId =  '';
   let isproduct=true;
@@ -78,7 +79,7 @@ const wishlistView=async(req,res)=>{
 
   }
   console.log("product ",product);
-  res.render("user/wishlist",{product,name,isproduct})
+  res.render("user/wishlist",{product,name,isproduct,session})
 }
 exports.wishlistView=wishlistView;
 

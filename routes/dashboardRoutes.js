@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.route('/')
     .get(dashboardController.dashboard);
-router.get('/details/:uid',auth.sessionCheckUser, dashboardController.showProduct);
+router.get('/details/:uid',dashboardController.showProduct);
 router.post('/fetch',auth.sessionCheckUser, dashboardController.productFetch);
-router.get('/allProducts',auth.sessionCheckUser, dashboardController.showAllProducts);
-router.get('/women',auth.sessionCheckUser, dashboardController.women);
-router.get('/men',auth.sessionCheckUser, dashboardController.men);
+router.get('/allProducts', dashboardController.showAllProducts);
+router.get('/women', dashboardController.women);
+router.get('/men', dashboardController.men);
 
 module.exports = router;

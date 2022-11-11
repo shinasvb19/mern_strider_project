@@ -56,10 +56,18 @@ try{
 }
 const addAddress = async (req,res)=>{
 const{country,address_line,town,state,post_code,mobile,email} = req.body
-
+console.log(req.body);
 id = req.session.user_id
-await User.updateOne({ id }, { $push: { address: { country,address_line,town,state,post_code,mobile,email } } });
-res.redirect('/checkout')
+// console.log(id);
+try{
+    await User.findByIdAndUpdate( id , { $push: { address: { country,address_line,town,state,post_code,mobile,email } } });
+   
+    res.redirect('/checkout')
+}
+catch(error){
+    console.log(error);
+}
+
 }
 
 const placeOrder =async (req,res)=>{
