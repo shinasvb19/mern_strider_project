@@ -109,7 +109,7 @@ const categoryProduct = async (req, res) => {
     const result = await Product.findById({id})
 }
 const women = async (req, res) => {
-    let id = '633d1bdf4043aa24c09dcdfd'
+    let id = '636c8475d6efdef485a3df72'
     session = req.session;
     id = mongoose.Types.ObjectId(id);
    const product = await Product.find({category_id:id})
@@ -117,7 +117,7 @@ const women = async (req, res) => {
  res.render('user/totalProduct',{product,session})
 }
 const men = async (req, res) => {
-    let id = '633e7fc23bf2ed6740bff737'
+    let id = '636c8471d6efdef485a3df6d'
     session = req.session;
     id = mongoose.Types.ObjectId(id);
    const product = await Product.find({category_id:id})
