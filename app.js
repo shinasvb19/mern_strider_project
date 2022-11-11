@@ -111,7 +111,7 @@ app.use('/wishlist', wishlistRoutes);
 // })
 
 app.get('*', (req, res, next) => {
-    res.render("404").status(404);
+    res.render("404");
 })
 
 app.listen(3000, () => {

@@ -4,6 +4,7 @@ const Admin = require('../models/adminSchema');
 const Checkout = require('../models/checkoutSchema');
 const mongoose = require('mongoose');
 const { findByIdAndUpdate } = require('../models/adminSchema');
+const User = require('../models/userSchema');
 
 const signinPage = (req, res) => {
 
@@ -79,7 +80,22 @@ const adminDashbord =async (req, res) => {
     const ordered = await Checkout.find({$and:[{createdAt:{$lt:Date.now(),$gt:Date.now() - 2629800000}},{'orderStatus.type':'ordered'}]}).count()
     //  console.log('shareef idea',ordered )
     //  console.log('shareef idea',dailySale )
-    res.render('admin/admin',{values,revenue,shipped,delivered,packed,cancelled,ordered})
+  const totalOrders = await Checkout.find({isCompleted:true}).count()
+  const usersTotal = await User.find().count()
+  const salesReport = await Checkout.aggregate(
+    [
+      {
+        $project: {
+          salesTotal: { $sum: "$bill"}
+         
+        }
+      }
+    ]
+ )
+ let salesSum = salesReport.reduce((partialSum, values) => partialSum + values.salesTotal,0)
+  // console.log(sum);
+    
+    res.render('admin/admin',{values,revenue,shipped,delivered,packed,cancelled,ordered,totalOrders,usersTotal,salesSum})
 }
 
 const product = (req, res) => {
@@ -93,7 +109,9 @@ const logout = (req, res) => {
 
 
 const orders =async (req,res)=> {
-    const checkout = await Checkout.aggregate([{$match:{isCompleted:true}}])      
+  const checkout = await Checkout.find({isCompleted:true}).sort({createdAt:-1})
+    // const checkout = await Checkout.aggregate([{$match:{isCompleted:true}},{$sort:{createdAt:-1}}])   
+    // console.log('this mate',checkout1);   
     res.render('admin/orderManagement',{checkout})
     
 }

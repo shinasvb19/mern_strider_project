@@ -98,7 +98,7 @@ const addressGet = async (req,res) =>{
 
   const showOrders = async (req,res)=>{
     id = req.session.user_id
- const checkout = await Checkout.aggregate([{$match:{userId:id,isCompleted:true}}])
+ const checkout = await Checkout.aggregate([{$match:{userId:id,isCompleted:true}},{$sort:{createdAt:-1}}])
 
 //  const checkout = await Checkout.aggregate([{$match:{userId:id,isCompleted:true}}, 
 //     { $unwind: '$cart_item' },
@@ -127,7 +127,7 @@ const session =req.session.user_id;
    let {checkoutId}= req.body
    checkoutId = mongoose.Types.ObjectId(checkoutId);
     console.log(checkoutId);
- const checkout = await Checkout.aggregate([{$match:{_id:checkoutId,isCompleted:true}}, 
+ const checkout = await Checkout.aggregate([{$match:{_id:checkoutId,isCompleted:true}},
     { $unwind: '$cart_item' },
     {$project:{product_id:'$cart_item.product_id',product_quantity: '$cart_item.product_quantity',
     product_size:'$cart_item.product_size',paymentStatus:'$paymentStatus',
@@ -136,7 +136,7 @@ const session =req.session.user_id;
     from: 'products',
     localField: 'product_id', foreignField: '_id', as: 'products'
 }}])
-console.log(checkout);
+// console.log('hdadada',checkout);
 
 res.send({checkout})
 
