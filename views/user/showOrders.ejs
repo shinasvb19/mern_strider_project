@@ -68,7 +68,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-danger"onclick="pop('<%=checkouts._id%>')"  data-dismiss="modal">cancel order</button>
+                      <button type="button" class="btn btn-danger"<% checkout.forEach(checkouts => { %> onclick="pop('<%=checkouts._id%>')" <% }) %> data-dismiss="modal">cancel order</button>
                     </div>
                   </div>
                 </div>
@@ -104,8 +104,7 @@ aria-hidden="true">
         
    function pop (id) {
             // let categoryId = category.value;
-
-            //  console.log(id)
+             console.log(id)
              
    const row = document.getElementById('row'+id)
              console.log(row)
