@@ -3,7 +3,7 @@
           <div class="row mt-5">
                 
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover" id="table">
                                <thead>
                                 <tr>
                                     <th>order id</th>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-danger"   <% checkout.forEach(checkouts => { %> onclick="pop('<%=checkouts._id%>')" <% }) %> data-dismiss="modal">cancel</button>
+                      <button type="button" class="btn btn-danger"onclick="pop('<%=checkouts._id%>')"  data-dismiss="modal">cancel order</button>
                     </div>
                   </div>
                 </div>
@@ -104,9 +104,11 @@ aria-hidden="true">
         
    function pop (id) {
             // let categoryId = category.value;
-            // console.log('clicked')
+
+            //  console.log(id)
+             
    const row = document.getElementById('row'+id)
-          //   console.log(row)
+             console.log(row)
           // console.log(id)
      fetch('/users/order/cancel', {
             method: 'POST',
@@ -115,6 +117,7 @@ aria-hidden="true">
         }).then(res => res.json()).then(data => {
           //  console.log('hello')
             row.remove()  
+            console.log(document.getElementById('table'))
         })
     };
     

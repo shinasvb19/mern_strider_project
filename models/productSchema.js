@@ -55,7 +55,7 @@ const productSchema = new Schema({
 
         }
     ]
-})
+},{timestamps:true})
 
 productSchema.plugin(validator);
 const Product = mongoose.model('Product', productSchema);

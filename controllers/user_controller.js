@@ -119,6 +119,7 @@ const session =req.session.user_id;
   const orderCancel = async (req,res)=>{
    const id = mongoose.Types.ObjectId(req.body)
     // console.log(id);
+    // console.log(id+'wawawawawawawa');
     const del = true
     await Checkout.findByIdAndDelete({_id:id})
     res.send({del})

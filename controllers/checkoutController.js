@@ -156,12 +156,14 @@ const paymentSuccess = async (req,res) => {
 }
    const successPage = async(req,res) =>{
     const {id} = req.query
+   const session = req.session.user_id
+    console.log(session);
     // console.log(id)
  const checkout = await Checkout.findById(id)
 //  console.log(checkout.bill)
 
  const bill = checkout.bill
-    res.render('user/paymentSuccess',{bill})
+    res.render('user/paymentSuccess',{bill,session})
    }
 
 

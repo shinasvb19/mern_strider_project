@@ -235,7 +235,10 @@
             }).then(res=> res.json()).then(data=>{
                 // console.log(data.cod)
                 if(data.cod == true){
-                    
+                    console.log('done maate')
+                    swal("Order placed", "Your order is successfuly placed", "success").then((value) => {
+                        window.location ='/users/orders'
+                    })
                 }
                 else{
                     razerpayFunction(data.options, data.userDetails, data.orderId)
@@ -286,7 +289,10 @@ fetch('/checkout/verify', {
 }).then(res => res.json()).then(data => {
     if(data.paymentStatus == 'success') {
         // console.log(data.paymentStatus)
-        window.location = '/checkout/orderSuccess?id='+data.payDetails.receipt;
+        swal("Order placed", "Your order is successfuly placed", "success").then((value) => {
+            window.location = '/checkout/orderSuccess?id='+data.payDetails.receipt;
+                    })
+       
     }else {
         window.location = '/checkout/paymentFail';
     }

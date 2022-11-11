@@ -36,12 +36,15 @@ const productPost = async (req, res) => {
     product.image = req.files.map(f => ({ url: f.path, filename: f.filename }))
     try {
         await product.save();
+        req.flash('success','product added successfully')
+        res.redirect('/products');
     }
     catch (error) {
-        console.log(error)
+        req.flash('error','something went wrong')
+        res.redirect('/products');
     }
     // console.log(req.body)
-    res.redirect('/products');
+    
 }
 const productLookup = async (req, res) => {
     // console.log(req.body);
